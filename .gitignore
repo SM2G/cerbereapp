@@ -1,3 +1,15 @@
+# Virtual env
+/venv
+
+# Cache
+/__pycache__
+/cerbereapp/__pycache__/
+/cerbereapp/cerbereapp/__pycache__/
+
+# Config files
+/instance
+/config
+config.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
