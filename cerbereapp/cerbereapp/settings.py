@@ -79,6 +79,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'testing': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cerbere_db',
+        'USER': 'cerbere_user',
+        'PASSWORD': 'cerbere_passwd',
+        'HOST': 'skyfall',
+        'PORT': '3306',
     }
 }
 

@@ -15,7 +15,7 @@ Web-based document lifecycle managment solution.
 virtualenv venv -p python3.5
 source venv/bin/activate
 sudo apt-get install libmysqlclient-dev
-pip install -f requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Features Roadmap
