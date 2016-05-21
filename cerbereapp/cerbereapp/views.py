@@ -7,4 +7,5 @@ def dashboard(request):
     return render_to_response("dashboard.html",{'all_employees': Employee.objects.all()})
 
 def index(request):
-    return render_to_response("dashboard.html",{'all_employees': Employee.objects.all()})
+    if not request.user.is_authenticated():
+        return render_to_response("dashboard.html",{'all_employees': Employee.objects.all()})
