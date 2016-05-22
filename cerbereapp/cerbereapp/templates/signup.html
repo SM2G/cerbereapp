@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
+
+  <!-- STATIC_URL -->
+  {% load staticfiles %}
+
 <div class="container">
   <div class="row ">
     <div class='col-md-6 col-md-offset-3 hidden-xs text-center'>
-      <img src="static/img/logo_v2.png",  class: "img-responsive "%></img>
+      <img src="{% static "cerbereapp/logo_v2.png" %}",  class: "img-responsive "%></img>
     </div>
   </div>
   <div class="row">
