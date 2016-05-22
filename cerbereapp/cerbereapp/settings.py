@@ -77,16 +77,16 @@ WSGI_APPLICATION = 'cerbereapp.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'testing': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cerbere_db',
         'USER': 'cerbere_user',
         'PASSWORD': 'cerbere_passwd',
-        'HOST': 'skyfall',
+        'HOST': 'moonraker',
         'PORT': '3306',
     }
 }
