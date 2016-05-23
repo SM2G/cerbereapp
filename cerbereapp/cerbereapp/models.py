@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, Group
 #Extend User
 class Account(models.Model):
     email = models.EmailField
+    password = models.CharField(max_length=128)
     username = models.CharField(max_length=50)
     account_type = models.ForeignKey('AccountType')
     def __str__(self):
@@ -11,6 +12,7 @@ class Account(models.Model):
 
 #Extend Group
 class AccountType(models.Model):
+    group = models.OneToOneField(Group)
     account_type_name = models.CharField(max_length=50)
     account_type_desc = models.CharField(max_length=50)
     def __str__(self):
