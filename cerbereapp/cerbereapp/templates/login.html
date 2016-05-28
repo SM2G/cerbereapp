@@ -3,7 +3,7 @@
 
   <!-- STATIC_URL -->
   {% load staticfiles %}
-  
+
 <div class="container">
   <div class="row ">
     <div class='col-md-6 col-md-offset-3 hidden-xs text-center'>
@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       <h3 class="form-heading">Login <a href="{% url 'index' %}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
-      <form action="" method="post">
+      <form action="" method="post">{% csrf_token %}
         <p><input class="form-control" type="text" id="email" name=email placeholder="your@mail.com" required="True" autofocus="True"></p>
         <p><input class="form-control" type="password" id="password" name=password placeholder="Password" required="True"></p>
         <div class="checkbox text-right"><label><input type="checkbox" id="remember_me" name=remember_me> Remember me</label></div>

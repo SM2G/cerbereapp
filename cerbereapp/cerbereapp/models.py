@@ -3,9 +3,10 @@ from django.contrib.auth.models import User, Group
 
 #Extend User
 class Account(models.Model):
-    email = models.EmailField
-    password = models.CharField(max_length=128)
-    username = models.CharField(max_length=50)
+    #email = models.EmailField
+    #password = models.CharField(max_length=128)
+    #username = models.CharField(max_length=50)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     account_type = models.ForeignKey('AccountType')
     def __str__(self):
         return self.username
