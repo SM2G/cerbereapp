@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>List: </h1>
+<ul>
+  {% for emp in employees_list %}
+    <li>{{ emp.first_name }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

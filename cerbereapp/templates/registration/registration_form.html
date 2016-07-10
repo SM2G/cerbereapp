@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <!-- STATIC_URL -->
+  {% load staticfiles %}
+
+<div class="container">
+  <div class="row ">
+    <div class='col-md-6 col-md-offset-3 hidden-xs text-center'>
+      <img src="{% static "cerbereapp/logo_v2.png" %}",  class: "img-responsive "%></img>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+    <h3 class="form-heading">Signup <a href="{% url 'index' %}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
+    <form method="post" action=".">
+      {% csrf_token %}
+      {{form.as_p}}
+      <p class="text-right"><imput type="submit" class="btn btn-primary" value=Signup/></p>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -13,27 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    #url(r'^login/$', 'django.contrib.auth.views.login'),
+    #url(r'^logout/$', 'django.contrib.auth.views.logout'),
     # ex: /
-    url(r'^$/', views.index, name='index'),
+    url(r'^$', views.index, name='index'),
     url(r'^index/', views.index, name='index'),
-    # ex: /dashboard/
+    url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^dashboard/', views.dashboard, name='dashboard'),
-    # ex: /signup/
-    url(r'^signup/', views.signup, name='signup'),
-    # ex: /login/
-    url(r'^login/', views.login, name='login'),
-    # ex: /logout/
-    url(r'^logout/', views.logout, name='logout'),
-    # ex: /polls/5/
-    #url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
-    # ex: /polls/5/results/
-    #url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
-    # ex: /polls/5/vote/
-    #url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
+    url(r'^admin/', admin.site.urls),
 ]
