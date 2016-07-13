@@ -12,5 +12,6 @@ def dashboard(request):
     employees_list = Employee.objects.all()
     context = {
         'employees_list': employees_list,
+        'username': request.user.username,
     }
-    return render_to_response("dashboard.html", context)
+    return render(request, 'dashboard.html', context)

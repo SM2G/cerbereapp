@@ -6,4 +6,7 @@
     <li>{{ emp.first_name }}</li>
   {% endfor %}
 </ul>
+{% if request.user.is_authenticated %}
+  <h4>{{ request.user.first_name }}</h4>
+{% endif %}
 {% endblock %}
