@@ -54,7 +54,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Profiles</a></li>
-              <li><a href="#">Document models</a></li>
+              <li><a href="{% url 'documentmodel' %}">Document models</a></li>
               <li><a href="#">Employees</a></li>
               <li class="divider"></li>
               <li><a href="#">Separated link</a></li>
@@ -75,7 +75,7 @@
         {% endif %}
         {% if not request.user.is_authenticated %}
           <li><a href="{% url 'auth_login' %}">Login</a></li>
-          <li><a href="#">Sign Up</a></li>
+          <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
         {% endif %}
       </ul>
     </div>

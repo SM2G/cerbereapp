@@ -23,7 +23,12 @@ urlpatterns = [
     # ex: /
     url(r'^$', views.index, name='index'),
     url(r'^index/', views.index, name='index'),
+    # Registration
     url(r'^accounts/', include('registration.backends.default.urls')),
+    # Dashboard
     url(r'^dashboard/', views.dashboard, name='dashboard'),
+    # Document Models
+    url(r'^documentmodel/', views.documentmodel, name='documentmodel'),
+    # Admin
     url(r'^admin/', admin.site.urls),
 ]
