@@ -32,7 +32,11 @@
   <!- - language - - >
   <script src="static/lang/fr.min.js"></script> -->
 
+  <!-- STATIC_URL -->
+  {% load staticfiles %}
+  
 </head>
+
 <body>
   <nav class="navbar navbar-default">
     <div class="container">
@@ -53,7 +57,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Menu <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Profiles</a></li>
+              <li><a href="{% url 'profiles' %}">Profiles</a></li>
               <li><a href="{% url 'documentmodel' %}">Document models</a></li>
               <li><a href="{% url 'employees' %}">Employees</a></li>
               <li class="divider"></li>
@@ -71,7 +75,8 @@
 
         <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}
-          <li><a href="{% url 'auth_logout' %}">Log out</a></li>
+        <li><a href="#">Account</a></li>
+        <li><a href="{% url 'auth_logout' %}">Log out</a></li>
         {% endif %}
         {% if not request.user.is_authenticated %}
           <li><a href="{% url 'auth_login' %}">Login</a></li>

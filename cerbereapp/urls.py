@@ -31,6 +31,8 @@ urlpatterns = [
     url(r'^documentmodel/', views.documentmodel, name='documentmodel'),
     # Employees
     url(r'^employees/', views.employees, name='employees'),
+    # Profiles
+    url(r'^profiles/', views.profiles, name='profiles'),
     # Admin
     url(r'^admin/', admin.site.urls),
 ]

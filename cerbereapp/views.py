@@ -29,11 +29,19 @@ def documentmodel(request):
     return render(request, 'documentmodel.html', context)
 
 
-
 @login_required
 def employees(request):
     context = {
         'username': request.user.username,
-        'user_id': request.user.id
+        'employees_list': Employee.objects.all()
     }
     return render(request, 'employees.html', context)
+
+
+@login_required
+def profiles(request):
+    context = {
+        'username': request.user.username,
+        'employees_list': Employee.objects.all()
+    }
+    return render(request, 'profiles.html', context)
