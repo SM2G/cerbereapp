@@ -22,8 +22,8 @@ class DocumentModel(models.Model):
     user_id = models.ForeignKey(User)
     document_model_name = models.CharField(max_length=50)
     profiles = models.ManyToManyField(Profile)
-    warning_days = models.IntegerField
-    critical_days = models.IntegerField
+    warning_days = models.IntegerField(default=2)
+    critical_days = models.IntegerField(default=1)
     def __str__(self):
         return self.document_model_name
 

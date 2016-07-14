@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Employees</h1>
+<ul>
+  {% for emp in employees_list %}
+    <li>{{ emp.first_name }}</li>
+  {% endfor %}
+</ul>
+{% if request.user.is_authenticated %}
+  <h4>{{ request.user.first_name }}</h4>
+{% endif %}
+{% endblock %}

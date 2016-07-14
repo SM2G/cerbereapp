@@ -27,3 +27,13 @@ def documentmodel(request):
         'user_id': request.user.id
     }
     return render(request, 'documentmodel.html', context)
+
+
+
+@login_required
+def employees(request):
+    context = {
+        'username': request.user.username,
+        'user_id': request.user.id
+    }
+    return render(request, 'employees.html', context)

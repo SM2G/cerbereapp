@@ -29,6 +29,8 @@ urlpatterns = [
     url(r'^dashboard/', views.dashboard, name='dashboard'),
     # Document Models
     url(r'^documentmodel/', views.documentmodel, name='documentmodel'),
+    # Employees
+    url(r'^employees/', views.employees, name='employees'),
     # Admin
     url(r'^admin/', admin.site.urls),
 ]
