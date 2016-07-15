@@ -1,13 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>List: </h1>
-<ul>
-  {% for emp in employees_list %}
-    <li>{{ emp.first_name }}</li>
-  {% endfor %}
+<h1>{{ page_title|title }}</h1>
+
+<h2>Summary</h2>
+<ul class="list-group col-md-3">
+  <li class="list-group-item text-primary">
+    <span class="badge">14</span>
+    Expired documents
+  </li>
+  <li class="list-group-item text-danger">
+    <span class="badge">2</span>
+    Documents in Critical status
+  </li>
+  <li class="list-group-item text-warning">
+    <span class="badge">1</span>
+    Documents in Warning status
+  </li>
 </ul>
-{% if request.user.is_authenticated %}
-  <h4>{{ request.user.first_name }}</h4>
-{% endif %}
+</div>
+
 {% endblock %}

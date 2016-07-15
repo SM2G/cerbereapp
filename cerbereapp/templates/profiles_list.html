@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ page_title|title }}</h1>
+
+<table class="table table-striped table-hover ">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Docuemnt Models</th>
+      <th>Assigned</th>
+    </tr>
+  </thead>
+  <tbody>
+     {% for prf in profiles %}
+    <tr>
+      <td><a href="#">{{ prf.profile_name }}</a></td>
+      <td><a href="#">{{ prf.profile.documentmodel.all.count }}</a></td>
+      <td>44</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% if request.user.is_authenticated %}
+  <h4>{{ request.user.first_name }}</h4>
+{% endif %}
+
+<a href="#" class="btn btn-default">New {{ page_title|title }}</a>
+
+{% endblock %}

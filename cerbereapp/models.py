@@ -34,3 +34,12 @@ class Document(models.Model):
     expiration_date = models.DateField
     def __str__(self):
         return self.DocumentModel.document_model_name
+
+
+class AccountType(models.Model):
+    user_id = models.ForeignKey(User)
+    name = models.CharField(max_length=50)
+    limit_employees = models.IntegerField(default=5)
+    notifications = models.BooleanField(default=False)
+    def __str__(self):
+        return self.name

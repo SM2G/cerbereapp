@@ -25,14 +25,16 @@ urlpatterns = [
     url(r'^index/', views.index, name='index'),
     # Registration
     url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^account/', views.account, name='account'),
     # Dashboard
     url(r'^dashboard/', views.dashboard, name='dashboard'),
     # Document Models
-    url(r'^documentmodel/', views.documentmodel, name='documentmodel'),
+    url(r'^documentmodel/', views.documentmodels_list, name='documentmodels_list'),
     # Employees
-    url(r'^employees/', views.employees, name='employees'),
+    url(r'^employees/', views.employees_list, name='employees_list'),
+    url(r'^employee/(\d+)', views.employee_details, name='employee_details'),
     # Profiles
-    url(r'^profiles/', views.profiles, name='profiles'),
+    url(r'^profiles/', views.profiles_list, name='profiles_list'),
     # Admin
     url(r'^admin/', admin.site.urls),
 ]

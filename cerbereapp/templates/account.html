@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bs-docs-section">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 id="buttons">{{ page_title|title }}</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">Account informations</div>
+    <div class="panel-body">
+      Account Type: <a class="text-info"> {{ account_name }}</a></br>
+      You currently have <a class="text-info">{{ employees_counter }}</a> employees registered on <a class="text-info">{{ limit_employees }}</a> authorized.
+    </div>
+  </div>
+
+</br>
+{% endblock %}

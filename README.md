@@ -31,3 +31,4 @@ pip install -r requirements.txt
 + Upload document scans
 + Create guest accounts
 + Advanced guest accounts
++ Add compressor for static files
