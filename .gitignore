@@ -1,5 +1,6 @@
 # Virtual env
 /venv
+db.sqlite3
 
 # Cache
 /__pycache__

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ page_title|title }}</h1>
+
+Hello
+
+{% if request.user.is_authenticated %}
+  <h4>{{ request.user.first_name }}</h4>
+{% endif %}
+
+<a href="#" class="btn btn-default">New {{ page_title|title }}</a>
+
+{% endblock %}

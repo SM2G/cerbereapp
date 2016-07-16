@@ -65,8 +65,9 @@ def employees_list(request):
 @login_required
 def employee_details(request, employee_id):
     context = {
-        'page_title': 'Employees',
+        'page_title': 'Employee details',
         'employee': Employee.objects.get(pk=employee_id),
+        'profiles': Profile.objects.all(),
     }
     return render(request, 'employee_details.html', context)
 
@@ -81,3 +82,11 @@ def profiles_list(request):
         'profiles': Profile.objects.all(),
     }
     return render(request, 'profiles_list.html', context)
+
+@login_required
+def profile_details(request, profile_id):
+    context = {
+        'page_title': 'Profile details',
+        'employee': Profile.objects.get(pk=profile_id),
+    }
+    return render(request, 'profile_details.html', context)

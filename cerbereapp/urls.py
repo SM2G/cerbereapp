@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^employee/(\d+)', views.employee_details, name='employee_details'),
     # Profiles
     url(r'^profiles/', views.profiles_list, name='profiles_list'),
+    url(r'^profile/(\d+)', views.profile_details, name='profile_details'),
     # Admin
     url(r'^admin/', admin.site.urls),
 ]

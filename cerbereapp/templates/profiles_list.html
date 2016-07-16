@@ -14,7 +14,7 @@
   <tbody>
      {% for prf in profiles %}
     <tr>
-      <td><a href="#">{{ prf.profile_name }}</a></td>
+      <td><a href="{% url 'profile_details' prf.id %}">{{ prf.profile_name }}</a></td>
       <td><a href="#">{{ prf.profile.documentmodel.all.count }}</a></td>
       <td>44</td>
     </tr>
