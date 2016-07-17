@@ -50,6 +50,13 @@ def documentmodels_list(request):
     }
     return render(request, 'documentmodels_list.html', context)
 
+@login_required
+def documentmodel_details(request, documentmodel_id):
+    context = {
+        'page_title': 'Document model details',
+        'documentmodel': DocumentModel.objects.get(pk=documentmodel_id),
+    }
+    return render(request, 'documentmodel_details.html', context)
 
 ## Employees
 ## ##############################
@@ -87,6 +94,6 @@ def profiles_list(request):
 def profile_details(request, profile_id):
     context = {
         'page_title': 'Profile details',
-        'employee': Profile.objects.get(pk=profile_id),
+        'profile': Profile.objects.get(pk=profile_id),
     }
     return render(request, 'profile_details.html', context)

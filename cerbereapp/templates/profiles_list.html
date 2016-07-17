@@ -7,15 +7,15 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Docuemnt Models</th>
-      <th>Assigned</th>
+      <th>Warning</th>
+      <th>Critical</th>
     </tr>
   </thead>
   <tbody>
      {% for prf in profiles %}
     <tr>
       <td><a href="{% url 'profile_details' prf.id %}">{{ prf.profile_name }}</a></td>
-      <td><a href="#">{{ prf.profile.documentmodel.all.count }}</a></td>
+      <td>{{ prf.profile.documentmodel.all.count }}</td>
       <td>44</td>
     </tr>
     {% endfor %}

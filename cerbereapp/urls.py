@@ -29,7 +29,8 @@ urlpatterns = [
     # Dashboard
     url(r'^dashboard/', views.dashboard, name='dashboard'),
     # Document Models
-    url(r'^documentmodel/', views.documentmodels_list, name='documentmodels_list'),
+    url(r'^documentmodels/', views.documentmodels_list, name='documentmodels_list'),
+    url(r'^documentmodel/(\d+)', views.documentmodel_details, name='documentmodel_details'),
     # Employees
     url(r'^employees/', views.employees_list, name='employees_list'),
     url(r'^employee/(\d+)', views.employee_details, name='employee_details'),

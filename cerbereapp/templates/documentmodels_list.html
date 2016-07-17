@@ -7,18 +7,18 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>Column heading</th>
-      <th>Column heading</th>
-      <th>Column heading</th>
+      <th>Name</th>
+      <th>Warning</th>
+      <th>Critical</th>
     </tr>
   </thead>
   <tbody>
      {% for docmodel in documentmodels %}
     <tr>
       <td>{{ docmodel.id }}</td>
-      <td><a href="#">{{ docmodel.document_model_name }}</a></td>
-      <td><a href="#">{{ docmodel.last_name }}</a></td>
-      <td><a href="#">{{ docmodel.profile_id }}</a></td>
+      <td><a href="{% url 'documentmodel_details' docmodel.id %}">{{ docmodel.document_model_name }}</a></td>
+      <td><a href="#">{{ docmodel.warning_days }}</a></td>
+      <td><a href="#">{{ docmodel.critical_days }}</a></td>
     </tr>
     {% endfor %}
     </tbody>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ page_title|title }}</h1>
+
+<form class="form-horizontal">
+  <fieldset>
+    <legend>{{ documentmodel }}</legend>
+    <div class="form-group">
+      <label for="input_document_model_name" class="col-lg-2 control-label">Name</label>
+      <div class="col-lg-10">
+        <input class="form-control" id="input_document_model_name" placeholder="{{documentmodel.document_model_name}}" type="text">
+      </div>
+    </div>
+      <div class="form-group">
+      <label for="input_warning_days" class="col-lg-2 control-label">Name</label>
+      <div class="col-lg-10">
+        <input class="form-control" id="input_warning_days" placeholder="{{documentmodel.warning_days}}" type="text">
+      </div>
+    </div>
+      <div class="form-group">
+      <label for="input_critical_days" class="col-lg-2 control-label">Name</label>
+      <div class="col-lg-10">
+        <input class="form-control" id="input_critical_days" placeholder="{{documentmodel.critical_days}}" type="text">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <a href="{% url 'employees_list' %}" class="btn btn-default">Cancel</a>
+        <a href="#" class="btn btn-primary">Submit</a>
+      </div>
+    </div>
+  </fieldset>
+</form>
+
+<ul>
+  {% for documentmodel in employee.documentmodels %}
+  <li>{{ documentmodel }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
