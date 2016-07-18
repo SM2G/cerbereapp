@@ -7,8 +7,8 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Warning</th>
-      <th>Critical</th>
+      <th><i class="fa fa-users fa-fw" aria-hidden="true"></i></th>
+      <th><i class="fa fa-file-o fa-fw" aria-hidden="true"></i></th>
     </tr>
   </thead>
   <tbody>
@@ -16,7 +16,7 @@
     <tr>
       <td><a href="{% url 'profile_details' prf.id %}">{{ prf.profile_name }}</a></td>
       <td>{{ prf.profile.documentmodel.all.count }}</td>
-      <td>44</td>
+      <td>12</td>
     </tr>
     {% endfor %}
     </tbody>

@@ -37,7 +37,7 @@ class Document(models.Model):
 
 
 class AccountType(models.Model):
-    user_id = models.ForeignKey(User)
+    user_id = models.OneToOneField(User)
     name = models.CharField(max_length=50)
     limit_employees = models.IntegerField(default=5)
     notifications = models.BooleanField(default=False)
