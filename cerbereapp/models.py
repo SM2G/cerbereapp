@@ -5,6 +5,7 @@ from django.contrib.auth.models import User, Group
 class Employee(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True)
     user_id = models.ForeignKey(User)
     profile_id = models.ForeignKey('Profile')
     def __str__(self):
