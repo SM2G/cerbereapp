@@ -79,6 +79,14 @@ def employee_details(request, employee_id):
     return render(request, 'employee_details.html', context)
 
 
+def employee_new(request):
+    context = {
+        'page_title': 'Employee details',
+        'employee': Employee.objects.get(pk=employee_id),
+        'profiles': Profile.objects.all(),
+    }
+    return render(request, 'employee_new.html', context)
+
 ## Profiles
 ## ##############################
 @login_required
