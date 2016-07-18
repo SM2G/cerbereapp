@@ -6,8 +6,7 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>First Name</th>
-      <th>Last Name</th>
+      <th>Name</th>
       <th>Profile</th>
       <th>Status</th>
     </tr>
@@ -16,8 +15,7 @@
      {% for emp in employees %}
     <tr>
       <td><a class="text-info">{{ emp.id }}</a></td>
-      <td><a href="{% url 'employee_details' emp.id %}">{{ emp.first_name }}</a></td>
-      <td><a href="{% url 'employee_details' emp.id %}">{{ emp.last_name }}</a></td>
+      <td><a href="{% url 'employee_details' emp.id %}">{{ emp }}</a></td>
       <td><a href="{% url 'profile_details' emp.profile_id.id %}">{{ emp.profile_id }}</a></td>
       <td><a href="{% url 'profile_details' emp.id %}"><i class="fa fa-circle fa-fw" aria-hidden="true"></i></a></td>
     </tr>
@@ -25,5 +23,5 @@
     </tbody>
 </table>
 
-<a href="#" class="btn btn-default">New {{ page_title|title }}</a>
+<a href="{% url 'employee_new' %}" class="btn btn-default">New {{ page_title|title }}</a>
 {% endblock %}

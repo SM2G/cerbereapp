@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.template.context_processors import csrf
 from django.shortcuts import render, render_to_response
 from .models import *
+from .forms import *
 
 
 def index(request):
@@ -58,6 +59,7 @@ def documentmodel_details(request, documentmodel_id):
     }
     return render(request, 'documentmodel_details.html', context)
 
+
 ## Employees
 ## ##############################
 @login_required
@@ -76,16 +78,16 @@ def employee_details(request, employee_id):
         'employee': Employee.objects.get(pk=employee_id),
         'profiles': Profile.objects.all(),
     }
-    return render(request, 'employee_details.html', context)
+    return render(request, 'employee_details.html', {'form': MessageForm()})
 
-
+@login_required
 def employee_new(request):
     context = {
-        'page_title': 'Employee details',
-        'employee': Employee.objects.get(pk=employee_id),
+        'page_title': 'New Employee',
         'profiles': Profile.objects.all(),
     }
-    return render(request, 'employee_new.html', context)
+    return render(request, 'employee_new.html',  {'form': EmployeeForm()})
+
 
 ## Profiles
 ## ##############################

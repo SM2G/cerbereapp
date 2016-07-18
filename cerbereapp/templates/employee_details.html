@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
 <h1>{{ page_title|title }}</h1>
+
+{% crispy form %}
 
 <form class="form-horizontal">
   <fieldset>
