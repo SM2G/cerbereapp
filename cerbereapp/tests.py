@@ -12,7 +12,7 @@ class CerbereAppViewsTestCase(TestCase):
         #account_type = AccountType.objects.create(user_id=1, name="Silver")
         #self.user = User.objects.create_user(username="user_one", email="user_one@gmail.com", password="password_one", AccountType="Silver")
         pass
-        
+
     def test_root(self):
         resp = self.client.get('/')
         self.assertEqual(resp.status_code, 200)
@@ -30,7 +30,7 @@ class CerbereAppViewsTestCase(TestCase):
         self.assertEqual(resp.status_code, 302)
 
     def test_login(self):
-        self.logged_in = self.client.login(username="user_one", password="password_one")
+        self.logged_in = self.client.login(username="user_one", password="password_two")
         self.assertFalse(self.logged_in)
         resp = self.client.get('/account/')
 

@@ -23,5 +23,13 @@
     </tbody>
 </table>
 
-<a href="{% url 'employee_new' %}" class="btn btn-default">New {{ page_title|title }}</a>
+
+{% if form %}
+<h1>Add new {{ page_title|title }}</h1>
+<form class="form-inline" action="{% url 'employees_list' %}" method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" class="btn btn-primary" value="Submit"/>
+</form>
+{% endif %}
 {% endblock %}

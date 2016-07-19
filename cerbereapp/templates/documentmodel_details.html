@@ -6,22 +6,37 @@
 <form class="form-horizontal">
   <fieldset>
     <legend>{{ documentmodel }}</legend>
+
     <div class="form-group">
       <label for="input_document_model_name" class="col-lg-2 control-label">Name</label>
       <div class="col-lg-10">
-        <input class="form-control" id="input_document_model_name" placeholder="{{documentmodel.document_model_name}}" type="text">
+        {% if documentmodel.name %}
+        <input class="form-control" id="input_document_model_name" value="{{documentmodel.name}}" type="text">
+        {% else %}
+        <input class="form-control" id="input_document_model_name" placeholder="{{documentmodel.name}}" type="text">
+        {% endif %}
       </div>
     </div>
+
       <div class="form-group">
       <label for="input_warning_days" class="col-lg-2 control-label">Warning days</label>
       <div class="col-lg-10">
+        {% if documentmodel.name %}
+        <input class="form-control" id="input_warning_days" value="{{documentmodel.warning_days}}" type="text">
+        {% else %}
         <input class="form-control" id="input_warning_days" placeholder="{{documentmodel.warning_days}}" type="text">
+        {% endif %}
       </div>
     </div>
+
       <div class="form-group">
       <label for="input_critical_days" class="col-lg-2 control-label">Critical days</label>
       <div class="col-lg-10">
+        {% if documentmodel.name %}
+        <input class="form-control" id="input_critical_days" value="{{documentmodel.critical_days}}" type="text">
+        {% else %}
         <input class="form-control" id="input_critical_days" placeholder="{{documentmodel.critical_days}}" type="text">
+        {% endif %}
       </div>
     </div>
 
@@ -31,6 +46,7 @@
         <input type="submit" class="btn btn-primary" value="Submit"/>
       </div>
     </div>
+    
   </fieldset>
 </form>
 

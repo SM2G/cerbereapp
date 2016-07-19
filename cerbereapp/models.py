@@ -14,19 +14,19 @@ class Employee(models.Model):
 
 class Profile(models.Model):
     user_id = models.ForeignKey(User)
-    profile_name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     def __str__(self):
-        return self.profile_name
+        return self.name
 
 
 class DocumentModel(models.Model):
     user_id = models.ForeignKey(User)
-    document_model_name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     profiles = models.ManyToManyField(Profile)
     warning_days = models.IntegerField(default=2)
     critical_days = models.IntegerField(default=1)
     def __str__(self):
-        return self.document_model_name
+        return self.name
 
 
 class Document(models.Model):
@@ -34,7 +34,7 @@ class Document(models.Model):
     document_file = models.BinaryField
     expiration_date = models.DateField
     def __str__(self):
-        return self.DocumentModel.document_model_name
+        return self.DocumentModel.name
 
 
 class AccountType(models.Model):

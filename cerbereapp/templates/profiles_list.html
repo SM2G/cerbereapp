@@ -14,7 +14,7 @@
   <tbody>
      {% for prf in profiles %}
     <tr>
-      <td><a href="{% url 'profile_details' prf.id %}">{{ prf.profile_name }}</a></td>
+      <td><a href="{% url 'profile_details' prf.id %}">{{ prf.name }}</a></td>
       <td>{{ prf.profile.documentmodel.all.count }}</td>
       <td>12</td>
     </tr>
@@ -25,6 +25,12 @@
   <h4>{{ request.user.first_name }}</h4>
 {% endif %}
 
-<a href="#" class="btn btn-default">New {{ page_title|title }}</a>
-
+{% if form %}
+<h1>Add new {{ page_title|title }}</h1>
+<form class="form-inline" action="{% url 'profiles_list' %}" method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" class="btn btn-primary" value="Submit"/>
+</form>
+{% endif %}
 {% endblock %}

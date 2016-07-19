@@ -14,7 +14,7 @@
   <tbody>
      {% for docmodel in documentmodels %}
     <tr>
-      <td><a href="{% url 'documentmodel_details' docmodel.id %}">{{ docmodel.document_model_name }}</a></td>
+      <td><a href="{% url 'documentmodel_details' docmodel.id %}">{{ docmodel.name }}</a></td>
       <td><a href="#">{{ docmodel.warning_days }}</a></td>
       <td><a href="#">{{ docmodel.critical_days }}</a></td>
     </tr>
@@ -22,6 +22,13 @@
     </tbody>
 </table>
 
+{% if form %}
+<h1>Add new {{ page_title|title }}</h1>
+<form class="form-inline" action="{% url 'documentmodels_list' %}" method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" class="btn btn-primary" value="Submit"/>
+</form>
+{% endif %}
 
-<a href="#" class="btn btn-default">New {{ page_title|title }}</a>
 {% endblock %}

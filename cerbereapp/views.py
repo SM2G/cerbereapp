@@ -7,6 +7,8 @@ from .models import *
 from .forms import *
 
 
+## Index
+## ##############################
 def index(request):
     return render(request, "index.html")
 
@@ -47,9 +49,21 @@ def documentmodels_list(request):
     context = {
         'page_title': 'Document Models',
         'username': request.user.username,
-        'documentmodels': DocumentModel.objects.all()
+        'documentmodels': DocumentModel.objects.all(),
+        'form': DocumentModelForm(request.POST)
     }
+    if request.method == "POST":
+        form = DocumentModelForm(request.POST)
+        if form.is_valid():
+            new_documentmodel = DocumentModel.objects.create(
+                user_id=request.user,
+                name=form.cleaned_data.get('name'),
+                warning_days=form.cleaned_data.get('warning_days'),
+                critical_days=form.cleaned_data.get('critical_days')
+            )
+            new_documentmodel.save()
     return render(request, 'documentmodels_list.html', context)
+
 
 @login_required
 def documentmodel_details(request, documentmodel_id):
@@ -57,6 +71,25 @@ def documentmodel_details(request, documentmodel_id):
         'page_title': 'Document model details',
         'documentmodel': DocumentModel.objects.get(pk=documentmodel_id),
     }
+    return render(request, 'documentmodel_details.html', context)
+
+
+@login_required
+def documentmodel_new(request):
+    form = DocumentModelForm()
+    context = {
+        'page_title': 'New document model',
+        'form': DocumentModelForm(request.POST)
+    }
+    if request.method == "POST":
+        if form.is_valid():
+            new_documentmodel = DocumentModel.objects.create(
+                user_id=request.user,
+                name=form.cleaned_data.get('name'),
+                warning_days=form.cleaned_data.get('warning_days'),
+                critical_days=form.cleaned_data.get('critical_days')
+            )
+            new_documentmodel.save()
     return render(request, 'documentmodel_details.html', context)
 
 
@@ -71,6 +104,7 @@ def employees_list(request):
     }
     return render(request, 'employees_list.html', context)
 
+
 @login_required
 def employee_details(request, employee_id):
     context = {
@@ -79,6 +113,7 @@ def employee_details(request, employee_id):
         'profiles': Profile.objects.all(),
     }
     return render(request, 'employee_details.html', {'form': MessageForm()})
+
 
 @login_required
 def employee_new(request):
@@ -99,6 +134,7 @@ def profiles_list(request):
         'profiles': Profile.objects.all(),
     }
     return render(request, 'profiles_list.html', context)
+
 
 @login_required
 def profile_details(request, profile_id):

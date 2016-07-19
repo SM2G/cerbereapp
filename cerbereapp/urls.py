@@ -31,6 +31,7 @@ urlpatterns = [
     # Document Models
     url(r'^documentmodels/', views.documentmodels_list, name='documentmodels_list'),
     url(r'^documentmodel/(\d+)', views.documentmodel_details, name='documentmodel_details'),
+    url(r'^documentmodel/new', views.documentmodel_new, name='documentmodel_new'),
     # Employees
     url(r'^employees/', views.employees_list, name='employees_list'),
     url(r'^employee/(\d+)', views.employee_details, name='employee_details'),
