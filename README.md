@@ -15,7 +15,10 @@ Web-based document lifecycle managment solution.
 virtualenv venv -p python3.5
 source venv/bin/activate
 sudo apt-get install libmysqlclient-dev
+pip install --upgrade pip
 pip install -r requirements.txt
+cp cerbereapp/settings.py.sample cerbereapp/settings.py
+# Adapt... and conquer.
 ```
 
 ## Features Roadmap

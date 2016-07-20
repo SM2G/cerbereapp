@@ -17,11 +17,10 @@ def index(request):
 ## ##############################
 @login_required
 def account(request):
-    employees_list = Employee.objects.all().count
     account_name = AccountType.objects.get(user_id = request.user.id)
     context = {
         'page_title': 'account',
-        'employees_counter': employees_list,
+        'employee_counter': Employee.objects.all().filter(user_id=request.user).count,
         'username': request.user.username,
         'account_name' : AccountType.objects.get(user_id = request.user.id),
         'limit_employees': account_name.limit_employees,
@@ -36,7 +35,7 @@ def dashboard(request):
     employees_list = Employee.objects.all()
     context = {
         'page_title': 'Dashboard',
-        'employees_list': employees_list,
+        'employee_counter': Employee.objects.all().filter(user_id=request.user).count,
         'username': request.user.username,
     }
     return render(request, 'dashboard.html', context)
@@ -49,11 +48,16 @@ def documentmodels_list(request):
     context = {
         'page_title': 'Document Models',
         'username': request.user.username,
-        'documentmodels': DocumentModel.objects.all(),
+        'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
         'form': DocumentModelForm(request.POST)
     }
     if request.method == "POST":
         form = DocumentModelForm(request.POST)
+        if "delete" in request.POST:
+            documentmodel_id = request.POST['documentmodel_id']
+            trash = DocumentModel.objects.get(pk=documentmodel_id)
+            trash.delete()
+            return reverse(request, 'documentmodels_list.html')
         if form.is_valid():
             new_documentmodel = DocumentModel.objects.create(
                 user_id=request.user,
@@ -74,25 +78,6 @@ def documentmodel_details(request, documentmodel_id):
     return render(request, 'documentmodel_details.html', context)
 
 
-@login_required
-def documentmodel_new(request):
-    form = DocumentModelForm()
-    context = {
-        'page_title': 'New document model',
-        'form': DocumentModelForm(request.POST)
-    }
-    if request.method == "POST":
-        if form.is_valid():
-            new_documentmodel = DocumentModel.objects.create(
-                user_id=request.user,
-                name=form.cleaned_data.get('name'),
-                warning_days=form.cleaned_data.get('warning_days'),
-                critical_days=form.cleaned_data.get('critical_days')
-            )
-            new_documentmodel.save()
-    return render(request, 'documentmodel_details.html', context)
-
-
 ## Employees
 ## ##############################
 @login_required
@@ -100,8 +85,22 @@ def employees_list(request):
     context = {
         'page_title': 'Employees',
         'username': request.user.username,
-        'employees': Employee.objects.all()
+        'employees': Employee.objects.all().filter(user_id=request.user),
+        'profiles': Profile.objects.all().filter(user_id=request.user),
+        'documentmodel': DocumentModel.objects.all().filter(user_id=request.user),
+        'form': EmployeeForm(request.POST)
     }
+    if request.method == "POST":
+        form = EmployeeForm(request.POST)
+        if form.is_valid():
+            new_employee = Employee.objects.create(
+                user_id=request.user,
+                first_name=form.cleaned_data.get('first_name'),
+                last_name=form.cleaned_data.get('last_name'),
+                profile=form.cleaned_data.get('profile'),
+                is_active=form.cleaned_data.get('is_active')
+            )
+            new_documentmodel.save()
     return render(request, 'employees_list.html', context)
 
 
@@ -112,16 +111,7 @@ def employee_details(request, employee_id):
         'employee': Employee.objects.get(pk=employee_id),
         'profiles': Profile.objects.all(),
     }
-    return render(request, 'employee_details.html', {'form': MessageForm()})
-
-
-@login_required
-def employee_new(request):
-    context = {
-        'page_title': 'New Employee',
-        'profiles': Profile.objects.all(),
-    }
-    return render(request, 'employee_new.html',  {'form': EmployeeForm()})
+    return render(request, 'employee_details.html')
 
 
 ## Profiles
@@ -131,8 +121,17 @@ def profiles_list(request):
     context = {
         'page_title': 'Profiles',
         'username': request.user.username,
-        'profiles': Profile.objects.all(),
+        'profiles': Profile.objects.all().filter(user_id=request.user),
+        'form': ProfileForm(request.POST)
     }
+    if request.method == "POST":
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            new_profile = Profile.objects.create(
+                user_id=request.user,
+                name=form.cleaned_data.get('name')
+            )
+            new_profile.save()
     return render(request, 'profiles_list.html', context)
 
 

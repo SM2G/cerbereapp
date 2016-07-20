@@ -31,11 +31,9 @@ urlpatterns = [
     # Document Models
     url(r'^documentmodels/', views.documentmodels_list, name='documentmodels_list'),
     url(r'^documentmodel/(\d+)', views.documentmodel_details, name='documentmodel_details'),
-    url(r'^documentmodel/new', views.documentmodel_new, name='documentmodel_new'),
-    # Employees
+# Employees
     url(r'^employees/', views.employees_list, name='employees_list'),
     url(r'^employee/(\d+)', views.employee_details, name='employee_details'),
-    url(r'^employee/new', views.employee_new, name='employee_new'),
     # Profiles
     url(r'^profiles/', views.profiles_list, name='profiles_list'),
     url(r'^profile/(\d+)', views.profile_details, name='profile_details'),
