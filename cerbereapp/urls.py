@@ -31,12 +31,15 @@ urlpatterns = [
     # Document Models
     url(r'^documentmodels/', views.documentmodels_list, name='documentmodels_list'),
     url(r'^documentmodel/(\d+)', views.documentmodel_details, name='documentmodel_details'),
-# Employees
+    url(r'^documentmodel/trash/(\d+)', views.documentmodel_trash, name='documentmodel_trash'),
+    # Employees
     url(r'^employees/', views.employees_list, name='employees_list'),
     url(r'^employee/(\d+)', views.employee_details, name='employee_details'),
+    url(r'^employee/trash/(\d+)', views.employee_trash, name='employee_trash'),
     # Profiles
     url(r'^profiles/', views.profiles_list, name='profiles_list'),
     url(r'^profile/(\d+)', views.profile_details, name='profile_details'),
+    url(r'^profile/trash/(\d+)', views.profile_trash, name='profile_trash'),
     # Admin
     url(r'^admin/', admin.site.urls),
 ]

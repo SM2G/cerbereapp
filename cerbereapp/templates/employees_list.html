@@ -16,13 +16,13 @@
     </tr>
   </thead>
   <tbody>
-     {% for emp in employees %}
+     {% for employee in employees %}
     <tr>
-      <td><a class="text-info">{{ emp.id }}</a></td>
-      <td><a href="{% url 'employee_details' emp.id %}">{{ emp }}</a></td>
-      <td><a href="{% url 'profile_details' emp.profile_id.id %}">{{ emp.profile_id }}</a></td>
-      <td><a href="{% url 'profile_details' emp.id %}"><i class="fa fa-circle fa-fw" aria-hidden="true"></i></a></td>
-      <td><a class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+      <td><a class="text-info">{{ employee.id }}</a></td>
+      <td><a href="{% url 'employee_details' employee.id %}">{{ employee }}</a></td>
+      <td><a href="{% url 'profile_details' employee.profile_id.id %}">{{ employee.profile_id }}</a></td>
+      <td><a href="{% url 'profile_details' employee.id %}"><i class="fa fa-circle fa-fw" aria-hidden="true"></i></a></td>
+      <td><a href="{% url 'employee_trash' employee.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
     </tr>
     {% endfor %}
     </tbody>

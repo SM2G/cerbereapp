@@ -32,10 +32,11 @@ def account(request):
 ## ##############################
 @login_required
 def dashboard(request):
-    employees_list = Employee.objects.all()
     context = {
         'page_title': 'Dashboard',
         'employee_counter': Employee.objects.all().filter(user_id=request.user).count,
+        'profile_counter': Profile.objects.all().filter(user_id=request.user).count,
+        'documentmodel_counter': DocumentModel.objects.all().filter(user_id=request.user).count,
         'username': request.user.username,
     }
     return render(request, 'dashboard.html', context)
@@ -53,11 +54,6 @@ def documentmodels_list(request):
     }
     if request.method == "POST":
         form = DocumentModelForm(request.POST)
-        if "delete" in request.POST:
-            documentmodel_id = request.POST['documentmodel_id']
-            trash = DocumentModel.objects.get(pk=documentmodel_id)
-            trash.delete()
-            return reverse(request, 'documentmodels_list.html')
         if form.is_valid():
             new_documentmodel = DocumentModel.objects.create(
                 user_id=request.user,
@@ -66,6 +62,18 @@ def documentmodels_list(request):
                 critical_days=form.cleaned_data.get('critical_days')
             )
             new_documentmodel.save()
+    return render(request, 'documentmodels_list.html', context)
+
+
+def documentmodel_trash(request, documentmodel_id):
+    trash = DocumentModel.objects.get(pk=documentmodel_id)
+    trash.delete()
+    context = {
+        'page_title': 'Document Models',
+        'username': request.user.username,
+        'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
+        'form': DocumentModelForm(request.POST)
+    }
     return render(request, 'documentmodels_list.html', context)
 
 
@@ -104,6 +112,18 @@ def employees_list(request):
     return render(request, 'employees_list.html', context)
 
 
+def employee_trash(request, employee_id):
+    trash = Employee.objects.get(pk=employee_id)
+    trash.delete()
+    context = {
+        'page_title': 'Employees',
+        'username': request.user.username,
+        'documentmodels': Employee.objects.all().filter(user_id=request.user),
+        'form': EmployeeForm(request.POST)
+    }
+    return render(request, 'employees_list.html', context)
+
+
 @login_required
 def employee_details(request, employee_id):
     context = {
@@ -132,6 +152,18 @@ def profiles_list(request):
                 name=form.cleaned_data.get('name')
             )
             new_profile.save()
+    return render(request, 'profiles_list.html', context)
+
+
+def profile_trash(request, profile_id):
+    trash = Profile.objects.get(pk=profile_id)
+    trash.delete()
+    context = {
+        'page_title': 'Profile',
+        'username': request.user.username,
+        'documentmodels': Profile.objects.all().filter(user_id=request.user),
+        'form': ProfileForm(request.POST)
+    }
     return render(request, 'profiles_list.html', context)
 
 

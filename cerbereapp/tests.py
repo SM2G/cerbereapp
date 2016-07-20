@@ -13,23 +13,23 @@ class CerbereAppViewsTestCase(TestCase):
         #self.user = User.objects.create_user(username="user_one", email="user_one@gmail.com", password="password_one", AccountType="Silver")
         pass
 
-    def test_root(self):
+    def view_root(self):
         resp = self.client.get('/')
         self.assertEqual(resp.status_code, 200)
 
-    def test_index(self):
+    def view_index(self):
         resp = self.client.get('/index/')
         self.assertEqual(resp.status_code, 200)
 
-    def test_account_private(self):
+    def is_account_private(self):
         resp = self.client.get('/account/')
         self.assertEqual(resp.status_code, 302)
 
-    def test_employee_private(self):
+    def is_employee_private(self):
         resp = self.client.get('/employees/')
         self.assertEqual(resp.status_code, 302)
 
-    def test_login(self):
+    def test_false_login(self):
         self.logged_in = self.client.login(username="user_one", password="password_two")
         self.assertFalse(self.logged_in)
         resp = self.client.get('/account/')

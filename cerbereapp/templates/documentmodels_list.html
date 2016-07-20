@@ -20,7 +20,7 @@
             <td><a href="{% url 'documentmodel_details' documentmodel.id %}">{{ documentmodel.name }}</a></td>
             <td><a href="#">{{ documentmodel.warning_days }}</a></td>
             <td><a href="#">{{ documentmodel.critical_days }}</a></td>
-            <td><a href="{% url 'documentmodel_details' documentmodel.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+            <td><a href="{% url 'documentmodel_trash' documentmodel.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>

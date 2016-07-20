@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django import forms
 
+from .models import *
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
@@ -11,7 +13,7 @@ class NameForm(forms.Form):
 
 
 class EmployeeForm(forms.Form):
-    first_name = forms.CharField()
+    first_name = forms.CharField(label=("first Name"), max_length=255)
     last_name = forms.CharField()
     profile = forms.ChoiceField(
         choices = (
@@ -26,10 +28,9 @@ class EmployeeForm(forms.Form):
 class ProfileForm(forms.Form):
     name = forms.CharField()
     checkboxes = forms.MultipleChoiceField(
+        label='Document models',
         choices = (
-            ('option_one', "Option one is this and that be sure to include why it's great"),
-            ('option_two', 'Option two can also be checked and included in form results'),
-            ('option_three', 'Option three can yes, you guessed it also be checked and included in form results')
+            [[x.id, x.name] for x in DocumentModel.objects.all()]
         ),
         initial = 'option_one',
         widget = forms.CheckboxSelectMultiple,
