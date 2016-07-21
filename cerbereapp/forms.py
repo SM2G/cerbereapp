@@ -13,35 +13,37 @@ class NameForm(forms.Form):
 
 
 class EmployeeForm(forms.Form):
-    first_name = forms.CharField(label=("first Name"), max_length=255)
-    last_name = forms.CharField()
-    profile = forms.ChoiceField(
-        choices = (
-            ('option_one', "Option one is this and that be sure to include why it's great"),
-            ('option_two', "Option two can is something else and selecting it will deselect option one")
-        ),
-        widget = forms.RadioSelect,
-        initial = 'option_two',
-    )
+    class Meta:
+        model = Employee
+        exclude = ["user_id"]
+    def __init__(self, *args, **kwargs):
+        super(EmployeeForm, self).__init__(*args, **kwargs)
+        self.fields["profile_id"].widget = forms.widgets.RadioSelect()
+        self.fields["profile_id"].help_text = "Profile"
+        self.fields["profile_id"].queryset = Profile.objects.all()
+        #self.fields["profile_id"].initial = Profile.objects.all()
+
+    #first_name = forms.CharField(label=("first Name"), max_length=255)
+    #last_name = forms.CharField()
+    #profile = forms.ChoiceField(
+    #    choices = (
+    #        ('option_one', "Option one is this and that be sure to include why it's great"),
+    #        ('option_two', "Option two can is something else and selecting it will deselect option one")
+    #    ),
+    #    widget = forms.RadioSelect,
+    #    initial = 'option_two',
+    #)
 
 
-class ProfileForm(forms.Form):
+class ProfileForm (forms.ModelForm):
     class Meta:
         model = Profile
-        fields = [
-            "name",
-            "Document Models"
-        ]
-#    name = forms.CharField()
-#    checkboxes = forms.MultipleChoiceField(
-#        label='Document models',
-#        choices = (
-#            [[x.id, x.name] for x in DocumentModel.objects.all()]
-#        ),
-#        initial = 'option_one',
-#        widget = forms.CheckboxSelectMultiple,
-#        help_text = "<strong>Note:</strong> Labels surround all the options for much larger click areas and a more usable form.",
-#    )
+        exclude = ["user_id"]
+    def __init__ (self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields["documentmodels_list"].widget = forms.widgets.CheckboxSelectMultiple()
+        self.fields["documentmodels_list"].help_text = "List of documents"
+        self.fields["documentmodels_list"].queryset = DocumentModel.objects.all()
 
 
 class DocumentModelForm(forms.Form):

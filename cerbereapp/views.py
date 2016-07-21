@@ -50,10 +50,10 @@ def documentmodels_list(request):
         'page_title': 'Document Models',
         'username': request.user.username,
         'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
-        'form': DocumentModelForm(request.POST)
+        'form': DocumentModelForm(request.POST or None)
     }
     if request.method == "POST":
-        form = DocumentModelForm(request.POST or None)
+        form = DocumentModelForm(request.POST)
         if form.is_valid():
             new_documentmodel = DocumentModel.objects.create(
                 user_id=request.user,
@@ -96,7 +96,7 @@ def employees_list(request):
         'employees': Employee.objects.all().filter(user_id=request.user),
         'profiles': Profile.objects.all().filter(user_id=request.user),
         'documentmodel': DocumentModel.objects.all().filter(user_id=request.user),
-        'form': EmployeeForm(request.POST)
+        'form': EmployeeForm(request.POST or None)
     }
     if request.method == "POST":
         form = EmployeeForm(request.POST)
@@ -142,7 +142,7 @@ def profiles_list(request):
         'page_title': 'Profiles',
         'username': request.user.username,
         'profiles': Profile.objects.all().filter(user_id=request.user),
-        'form': ProfileForm(request.POST)
+        'form': ProfileForm(request.POST or None)
     }
     if request.method == "POST":
         form = ProfileForm(request.POST)
