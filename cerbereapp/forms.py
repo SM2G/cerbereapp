@@ -26,16 +26,22 @@ class EmployeeForm(forms.Form):
 
 
 class ProfileForm(forms.Form):
-    name = forms.CharField()
-    checkboxes = forms.MultipleChoiceField(
-        label='Document models',
-        choices = (
-            [[x.id, x.name] for x in DocumentModel.objects.all()]
-        ),
-        initial = 'option_one',
-        widget = forms.CheckboxSelectMultiple,
-        help_text = "<strong>Note:</strong> Labels surround all the options for much larger click areas and a more usable form.",
-    )
+    class Meta:
+        model = Profile
+        fields = [
+            "name",
+            "Document Models"
+        ]
+#    name = forms.CharField()
+#    checkboxes = forms.MultipleChoiceField(
+#        label='Document models',
+#        choices = (
+#            [[x.id, x.name] for x in DocumentModel.objects.all()]
+#        ),
+#        initial = 'option_one',
+#        widget = forms.CheckboxSelectMultiple,
+#        help_text = "<strong>Note:</strong> Labels surround all the options for much larger click areas and a more usable form.",
+#    )
 
 
 class DocumentModelForm(forms.Form):

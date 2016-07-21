@@ -18,8 +18,8 @@
         {% for profile in profiles %}
         <tr>
             <td><a href="{% url 'profile_details' profile.id %}">{{ profile.name }}</a></td>
-            <td>{{ profile.profile.documentmodel.all.count }}</td>
-            <td>12</td>
+            <td>999</td>
+            <td>999</td>
             <td><a href="{% url 'profile_trash' profile.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
         </tr>
         {% endfor %}
@@ -32,7 +32,7 @@ Create <a href="{% url 'documentmodels_list' %}">Document Models</a> first.
 
 {% if form %}
 <h1>Add new {{ page_title|title }}</h1>
-<form class="form-horizontal" action="{% url 'employees_list' %}" method="POST">
+<form class="form-horizontal" action="{% url 'profiles_list' %}" method="POST">
     {% csrf_token %}
     {{ form|crispy }}
     <input type="submit" class="btn btn-primary" value="Submit"/>

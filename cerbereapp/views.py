@@ -53,7 +53,7 @@ def documentmodels_list(request):
         'form': DocumentModelForm(request.POST)
     }
     if request.method == "POST":
-        form = DocumentModelForm(request.POST)
+        form = DocumentModelForm(request.POST or None)
         if form.is_valid():
             new_documentmodel = DocumentModel.objects.create(
                 user_id=request.user,
