@@ -105,10 +105,10 @@ def employees_list(request):
                 user_id=request.user,
                 first_name=form.cleaned_data.get('first_name'),
                 last_name=form.cleaned_data.get('last_name'),
-                profile=form.cleaned_data.get('profile'),
+                profile_id=form.cleaned_data.get('profile_id'),
                 is_active=form.cleaned_data.get('is_active')
             )
-            new_documentmodel.save()
+            new_employee.save()
     return render(request, 'employees_list.html', context)
 
 

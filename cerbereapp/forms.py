@@ -12,13 +12,13 @@ class NameForm(forms.Form):
     your_name = forms.CharField(label='Your name', max_length=100)
 
 
-class EmployeeForm(forms.Form):
+class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
         exclude = ["user_id"]
     def __init__(self, *args, **kwargs):
         super(EmployeeForm, self).__init__(*args, **kwargs)
-        self.fields["profile_id"].widget = forms.widgets.RadioSelect()
+        self.fields["profile_id"].widget = forms.widgets.Select()
         self.fields["profile_id"].help_text = "Profile"
         self.fields["profile_id"].queryset = Profile.objects.all()
         #self.fields["profile_id"].initial = Profile.objects.all()
