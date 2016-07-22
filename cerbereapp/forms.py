@@ -12,12 +12,12 @@ class NameForm(forms.Form):
     your_name = forms.CharField(label='Your name', max_length=100)
 
 
-class EmployeeForm(forms.ModelForm):
+class EmployeeFormCreate(forms.ModelForm):
     class Meta:
         model = Employee
         exclude = ["user_id"]
     def __init__(self, *args, **kwargs):
-        super(EmployeeForm, self).__init__(*args, **kwargs)
+        super(EmployeeFormCreate, self).__init__(*args, **kwargs)
         self.fields["profile_id"].widget = forms.widgets.Select()
         self.fields["profile_id"].help_text = "Profile"
         self.fields["profile_id"].queryset = Profile.objects.all()
@@ -35,18 +35,29 @@ class EmployeeForm(forms.ModelForm):
     #)
 
 
-class ProfileForm (forms.ModelForm):
+class ProfileFormCreate(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ["user_id"]
     def __init__ (self, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
+        super(ProfileFormCreate, self).__init__(*args, **kwargs)
         self.fields["documentmodels_list"].widget = forms.widgets.CheckboxSelectMultiple()
         self.fields["documentmodels_list"].help_text = "List of documents"
         self.fields["documentmodels_list"].queryset = DocumentModel.objects.all()
 
 
-class DocumentModelForm(forms.Form):
-    name = forms.CharField()
-    warning_days = forms.CharField()
-    critical_days = forms.CharField()
+#class DocumentModelForm(forms.Form):
+#    name = forms.CharField()
+#    warning_days = forms.CharField()
+#    critical_days = forms.CharField()
+
+class DocumentModelFormCreate(forms.ModelForm):
+    class Meta:
+        model = DocumentModel
+        exclude = ["user_id"]
+    def __init__(self, *args, **kwargs):
+        super(DocumentModelFormCreate, self).__init__(*args, **kwargs)
+        self.fields["warning_days"].widget = forms.widgets.NumberInput()
+        self.fields["warning_days"].help_text = "Number of warning days"
+        self.fields["critical_days"].widget = forms.widgets.NumberInput()
+        self.fields["critical_days"].help_text = "Number of critical days"

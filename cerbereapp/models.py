@@ -19,6 +19,7 @@ class DocumentModel(models.Model):
     def __str__(self):
         return self.name
 
+
 class Profile(models.Model):
     user_id = models.ForeignKey(User)
     name = models.CharField(max_length=50)

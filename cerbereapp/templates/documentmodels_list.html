@@ -11,28 +11,23 @@
             <th>Name</th>
             <th>Warning</th>
             <th>Critical</th>
+            <th><i class="fa fa-user-times fa-fw" aria-hidden="true"></i></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         {% for documentmodel in documentmodels %}
         <tr>
-            <td><a href="{% url 'documentmodel_details' documentmodel.id %}">{{ documentmodel.name }}</a></td>
+            <td><a href="{% url 'documentmodel_update' documentmodel.id %}">{{ documentmodel.name }}</a></td>
             <td><a href="#">{{ documentmodel.warning_days }}</a></td>
             <td><a href="#">{{ documentmodel.critical_days }}</a></td>
+            <td><a href="#">999</a></td>
             <td><a href="{% url 'documentmodel_trash' documentmodel.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
-{% if form %}
-<h1>Add new {{ page_title|title }}</h1>
-<form class="form-horizontal" action="{% url 'documentmodels_list' %}" method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" class="btn btn-primary" value="Submit"/>
-</form>
-{% endif %}
+<a class="btn btn-primary" href="{% url 'documentmodel_new' %}">New document model</a>
 
 {% endblock %}

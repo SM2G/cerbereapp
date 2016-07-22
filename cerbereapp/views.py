@@ -50,19 +50,18 @@ def documentmodels_list(request):
         'page_title': 'Document Models',
         'username': request.user.username,
         'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
-        'form': DocumentModelForm(request.POST or None)
     }
-    if request.method == "POST":
-        form = DocumentModelForm(request.POST)
-        if form.is_valid():
-            new_documentmodel = DocumentModel.objects.create(
-                user_id=request.user,
-                name=form.cleaned_data.get('name'),
-                warning_days=form.cleaned_data.get('warning_days'),
-                critical_days=form.cleaned_data.get('critical_days')
-            )
-            new_documentmodel.save()
     return render(request, 'documentmodels_list.html', context)
+
+
+@login_required
+def documentmodel_new(request, template_name='documentmodel_new.html'):
+    form = DocumentModelFormCreate(request.POST or None)
+    form.user_id = request.user
+    if form.is_valid():
+        form.save()
+        return redirect('documentmodels_list')
+    return render(request, template_name, {'form':form})
 
 
 def documentmodel_trash(request, documentmodel_id):
@@ -72,46 +71,19 @@ def documentmodel_trash(request, documentmodel_id):
         'page_title': 'Document Models',
         'username': request.user.username,
         'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
-        'form': DocumentModelForm(request.POST)
+        'form': DocumentModelFormCreate(request.POST)
     }
     return render(request, 'documentmodels_list.html', context)
 
 
 @login_required
-def documentmodel_details(request, documentmodel_id):
-    documentmodel = get_object_or_404(DocumentModel, pk=documentmodel_id)
-    form = DocumentModelForm(request.POST or None)
+def documentmodel_update(request, pk, template_name='documentmodel_update.html'):
+    documentmodel = get_object_or_404(DocumentModel, pk=pk)
+    form = DocumentModelFormCreate(request.POST or None, instance=documentmodel)
     if form.is_valid():
         form.save()
-        documentmodel = form.save
-        documentmodel.save()
-        return HttpResponseRedirect('documentmodels_list')
-
-    context = {
-        'page_title': 'Document Models',
-        'username': request.user.username,
-        'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
-        'form': DocumentModelForm(request.POST or None)
-    }
-    return render(request, 'documentmodel_details.html', context)
-
-#def documentmodel_details(request, documentmodel_id):
-#    documentmodel = get_object_or_404(DocumentModel, pk=documentmodel_id)
-#    form = DocumentModelForm(request.POST or None,documentmodel)
-#    context = {
-#        'page_title': 'Document model details',
-#        'username': request.user.username,
-#        'documentmodel': DocumentModel.objects.get(pk=documentmodel_id),
-#        'form': DocumentModelForm(request.POST or None)
-#    }
-#    if form.is_valid():
-#        form.save()
-#        return redirect('documentmodels_list')
-#    return render(request, 'documentmodels_list.html', context)
-
-
-
-
+        return redirect('documentmodels_list')
+    return render(request, template_name, {'form':form})
 
 
 ## Employees
@@ -124,10 +96,10 @@ def employees_list(request):
         'employees': Employee.objects.all().filter(user_id=request.user),
         'profiles': Profile.objects.all().filter(user_id=request.user),
         'documentmodel': DocumentModel.objects.all().filter(user_id=request.user),
-        'form': EmployeeForm(request.POST or None)
+        'form': EmployeeFormCreate(request.POST or None)
     }
     if request.method == "POST":
-        form = EmployeeForm(request.POST)
+        form = EmployeeFormCreate(request.POST)
         if form.is_valid():
             new_employee = Employee.objects.create(
                 user_id=request.user,
@@ -146,20 +118,20 @@ def employee_trash(request, employee_id):
     context = {
         'page_title': 'Employees',
         'username': request.user.username,
-        'documentmodels': Employee.objects.all().filter(user_id=request.user),
-        'form': EmployeeForm(request.POST)
+        'employees': Employee.objects.all().filter(user_id=request.user),
+        'form': EmployeeFormCreate(request.POST)
     }
     return render(request, 'employees_list.html', context)
 
 
 @login_required
-def employee_details(request, employee_id):
+def employee_update(request, employee_id):
     context = {
-        'page_title': 'Employee details',
+        'page_title': 'Employee update',
         'employee': Employee.objects.get(pk=employee_id),
         'profiles': Profile.objects.all(),
     }
-    return render(request, 'employee_details.html')
+    return render(request, 'employee_update.html')
 
 
 ## Profiles
@@ -170,10 +142,10 @@ def profiles_list(request):
         'page_title': 'Profiles',
         'username': request.user.username,
         'profiles': Profile.objects.all().filter(user_id=request.user),
-        'form': ProfileForm(request.POST or None)
+        'form': ProfileFormCreate(request.POST or None)
     }
     if request.method == "POST":
-        form = ProfileForm(request.POST)
+        form = ProfileFormCreate(request.POST)
         if form.is_valid():
             new_profile = Profile.objects.create(
                 user_id=request.user,
@@ -190,15 +162,15 @@ def profile_trash(request, profile_id):
         'page_title': 'Profile',
         'username': request.user.username,
         'documentmodels': Profile.objects.all().filter(user_id=request.user),
-        'form': ProfileForm(request.POST)
+        'form': ProfileFormCreate(request.POST)
     }
     return render(request, 'profiles_list.html', context)
 
 
 @login_required
-def profile_details(request, profile_id):
+def profile_update(request, profile_id):
     context = {
-        'page_title': 'Profile details',
+        'page_title': 'Profile update',
         'profile': Profile.objects.get(pk=profile_id),
     }
-    return render(request, 'profile_details.html', context)
+    return render(request, 'profile_update.html', context)

@@ -24,7 +24,7 @@ cp cerbereapp/settings.py.sample cerbereapp/settings.py
 ## Features Roadmap
 + ~~Login/logout~~
 + ~~Encrypted password storage~~
-+ Account managment
++ ~~Account managment~~
 + Add/remove/manage document models
 + Add/remove/manage profiles
 + Add/remove/manage employees
