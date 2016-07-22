@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.template.context_processors import csrf
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, get_object_or_404
 from .models import *
 from .forms import *
 
@@ -79,11 +79,39 @@ def documentmodel_trash(request, documentmodel_id):
 
 @login_required
 def documentmodel_details(request, documentmodel_id):
+    documentmodel = get_object_or_404(DocumentModel, pk=documentmodel_id)
+    form = DocumentModelForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        documentmodel = form.save
+        documentmodel.save()
+        return HttpResponseRedirect('documentmodels_list')
+
     context = {
-        'page_title': 'Document model details',
-        'documentmodel': DocumentModel.objects.get(pk=documentmodel_id),
+        'page_title': 'Document Models',
+        'username': request.user.username,
+        'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
+        'form': DocumentModelForm(request.POST or None)
     }
     return render(request, 'documentmodel_details.html', context)
+
+#def documentmodel_details(request, documentmodel_id):
+#    documentmodel = get_object_or_404(DocumentModel, pk=documentmodel_id)
+#    form = DocumentModelForm(request.POST or None,documentmodel)
+#    context = {
+#        'page_title': 'Document model details',
+#        'username': request.user.username,
+#        'documentmodel': DocumentModel.objects.get(pk=documentmodel_id),
+#        'form': DocumentModelForm(request.POST or None)
+#    }
+#    if form.is_valid():
+#        form.save()
+#        return redirect('documentmodels_list')
+#    return render(request, 'documentmodels_list.html', context)
+
+
+
+
 
 
 ## Employees
