@@ -30,12 +30,5 @@
 Create <a href="{% url 'documentmodels_list' %}">Document Models</a> first.
 {% endif %}
 
-{% if form %}
-<h1>Add new {{ page_title|title }}</h1>
-<form class="form-horizontal" action="{% url 'profiles_list' %}" method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" class="btn btn-primary" value="Submit"/>
-</form>
-{% endif %}
+<a class="btn btn-primary" href="{% url 'profile_create' %}">New profile</a>
 {% endblock %}

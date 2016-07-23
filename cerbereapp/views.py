@@ -55,15 +55,15 @@ def documentmodels_list(request):
 
 
 @login_required
-def documentmodel_new(request, template_name='documentmodel_new.html'):
+def documentmodel_create(request, template_name='documentmodel_create.html'):
     form = DocumentModelFormCreate(request.POST or None)
-    form.user_id = request.user
     if form.is_valid():
         form.save()
         return redirect('documentmodels_list')
     return render(request, template_name, {'form':form})
 
 
+@login_required
 def documentmodel_trash(request, documentmodel_id):
     trash = DocumentModel.objects.get(pk=documentmodel_id)
     trash.delete()
@@ -112,6 +112,16 @@ def employees_list(request):
     return render(request, 'employees_list.html', context)
 
 
+@login_required
+def employee_create(request, template_name='employee_create.html'):
+    form = EmployeeFormCreate(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('employees_list')
+    return render(request, template_name, {'form':form})
+
+
+@login_required
 def employee_trash(request, employee_id):
     trash = Employee.objects.get(pk=employee_id)
     trash.delete()
@@ -153,6 +163,33 @@ def profiles_list(request):
             )
             new_profile.save()
     return render(request, 'profiles_list.html', context)
+
+
+@login_required
+def profile_create(request, template_name='profile_create.html'):
+    form = ProfileFormCreate(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('profiles_list')
+    return render(request, template_name, {'form':form})
+
+
+@login_required
+def profile_create(request):
+    context = {
+        'page_title': 'Profiles',
+        'username': request.user.username,
+        'form': ProfileFormCreate(request.POST or None)
+    }
+    if request.method == "POST":
+        form = ProfileFormCreate(request.POST)
+        if form.is_valid():
+            new_profile = Profile.objects.create(
+                user_id=request.user,
+                name=form.cleaned_data.get('name')
+            )
+            new_profile.save()
+    return render(request, 'profile_create.html', context)
 
 
 def profile_trash(request, profile_id):
