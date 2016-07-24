@@ -38,8 +38,9 @@ class Employee(models.Model):
         return self.first_name + ' ' + self.last_name
 
 
-class Document(models.Model):
-    employee_id = models.ForeignKey(Employee)
+class ActualDocument(models.Model):
+    employee = models.ForeignKey(Employee)
+    documentmodel = models.ForeignKey(DocumentModel)
     document_file = models.BinaryField
     expiration_date = models.DateField
     def __str__(self):

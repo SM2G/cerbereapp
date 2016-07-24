@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.template.context_processors import csrf
@@ -50,17 +50,32 @@ def documentmodels_list(request):
         'page_title': 'Document Models',
         'username': request.user.username,
         'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
+        'form': ProfileFormCreate(request.POST or None)
     }
+    if request.method == "POST":
+        form = DocumentModelFormCreate(request.POST)
+        if form.is_valid():
+            new_documentmodel = DocumentModel.objects.create(
+                user_id=request.user,
+                name=form.cleaned_data.get('name'),
+                warning_days=form.cleaned_data.get('warning_days'),
+                critical_days=form.cleaned_data.get('critical_days')
+            )
+            new_documentmodel.save()
     return render(request, 'documentmodels_list.html', context)
 
 
 @login_required
 def documentmodel_create(request, template_name='documentmodel_create.html'):
+    print('====== Entering')
     form = DocumentModelFormCreate(request.POST or None)
     if form.is_valid():
+        print('====== Going to save')
         form.save()
         return redirect('documentmodels_list')
+    print('====== Render')
     return render(request, template_name, {'form':form})
+
 
 
 @login_required
@@ -84,64 +99,6 @@ def documentmodel_update(request, pk, template_name='documentmodel_update.html')
         form.save()
         return redirect('documentmodels_list')
     return render(request, template_name, {'form':form})
-
-
-## Employees
-## ##############################
-@login_required
-def employees_list(request):
-    context = {
-        'page_title': 'Employees',
-        'username': request.user.username,
-        'employees': Employee.objects.all().filter(user_id=request.user),
-        'profiles': Profile.objects.all().filter(user_id=request.user),
-        'documentmodel': DocumentModel.objects.all().filter(user_id=request.user),
-        'form': EmployeeFormCreate(request.POST or None)
-    }
-    if request.method == "POST":
-        form = EmployeeFormCreate(request.POST)
-        if form.is_valid():
-            new_employee = Employee.objects.create(
-                user_id=request.user,
-                first_name=form.cleaned_data.get('first_name'),
-                last_name=form.cleaned_data.get('last_name'),
-                profile_id=form.cleaned_data.get('profile_id'),
-                is_active=form.cleaned_data.get('is_active')
-            )
-            new_employee.save()
-    return render(request, 'employees_list.html', context)
-
-
-@login_required
-def employee_create(request, template_name='employee_create.html'):
-    form = EmployeeFormCreate(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('employees_list')
-    return render(request, template_name, {'form':form})
-
-
-@login_required
-def employee_trash(request, employee_id):
-    trash = Employee.objects.get(pk=employee_id)
-    trash.delete()
-    context = {
-        'page_title': 'Employees',
-        'username': request.user.username,
-        'employees': Employee.objects.all().filter(user_id=request.user),
-        'form': EmployeeFormCreate(request.POST)
-    }
-    return render(request, 'employees_list.html', context)
-
-
-@login_required
-def employee_update(request, employee_id):
-    context = {
-        'page_title': 'Employee update',
-        'employee': Employee.objects.get(pk=employee_id),
-        'profiles': Profile.objects.all(),
-    }
-    return render(request, 'employee_update.html')
 
 
 ## Profiles
@@ -211,3 +168,46 @@ def profile_update(request, profile_id):
         'profile': Profile.objects.get(pk=profile_id),
     }
     return render(request, 'profile_update.html', context)
+
+## Employees
+## ##############################
+@login_required
+def employees_list(request):
+    context = {
+        'page_title': 'Employees',
+        'username': request.user.username,
+        'employees': Employee.objects.all().filter(user_id=request.user),
+    }
+    return render(request, 'employees_list.html', context)
+
+
+@login_required
+def employee_create(request, template_name='employee_create.html'):
+    form = EmployeeFormCreate(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('employees_list')
+    return render(request, template_name, {'form':form})
+
+
+@login_required
+def employee_trash(request, employee_id):
+    trash = Employee.objects.get(pk=employee_id)
+    trash.delete()
+    context = {
+        'page_title': 'Employees',
+        'username': request.user.username,
+        'employees': Employee.objects.all().filter(user_id=request.user),
+        'form': EmployeeFormCreate(request.POST)
+    }
+    return render(request, 'employees_list.html', context)
+
+
+@login_required
+def employee_update(request, employee_id):
+    context = {
+        'page_title': 'Employee update',
+        'employee': Employee.objects.get(pk=employee_id),
+        'profiles': Profile.objects.all(),
+    }
+    return render(request, 'employee_update.html')

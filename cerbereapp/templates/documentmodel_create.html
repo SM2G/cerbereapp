@@ -2,21 +2,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
 <h1>{{ page_title|title }}</h1>
 
 <form class="form-horizontal" action="{% url 'documentmodels_list' %}" method="POST">
-  <fieldset>
-    <legend>{{ documentmodel }}</legend>
-
-        {% csrf_token %}
-        {{ form|crispy }}
-
-        <a href="{% url 'documentmodels_list' %}" class="btn btn-default">Cancel</a>
-        <input type="submit" class="btn btn-primary" value="Submit"/>
-      </div>
-    </div>
-
-  </fieldset>
+  {% csrf_token %}
+  {{ form|crispy }}
+  <a href="{% url 'documentmodels_list' %}" class="btn btn-default">Cancel</a>
+  <input type="submit" class="btn btn-primary" value="Submit"/>
 </form>
 
 {% endblock %}

@@ -11,6 +11,12 @@ class CerbereAppViewsTestCase(TestCase):
         #account_type = AccountType.objects.create(user_id=1, name="Silver")
         self.user_one = User.objects.create_user(username="user_one", email="user_one@gmail.com", password="password_one")
         self.account_type = AccountType.objects.create(user_id=self.user_one, name="Silver")
+        self.account_type.save()
+        self.user_one.save()
+        self.documentmodel_one_one = DocumentModel.objects.create(user_id=self.user_one, name="documentmodel_one_one",warning_days=10,critical_days=5)
+        self.documentmodel_one_one.save()
+        self.profile_one = Profile.objects.create(user_id=self.user_one, name="profile_one")
+        self.profile_one.save()
 
 
     def test_view_root(self):
@@ -58,15 +64,22 @@ class CerbereAppViewsTestCase(TestCase):
 
     def test_create_empty_profile(self):
         self.logged_in = self.client.login(username="user_one", password="password_one")
-        self.documentmodel_one = DocumentModel.objects.create(user_id=self.user_one, name="paper_one", warning_days=10, critical_days=5)
-        self.profile_one = Profile.objects.create(user_id=self.user_one, name="profile_one")
-        self.profile_one.save()
-        self.assertTrue(self.profile_one)
+        self.documentmodel_two = DocumentModel.objects.create(user_id=self.user_one, name="documentmodel_two", warning_days=10, critical_days=5)
+        self.profile_two = Profile.objects.create(user_id=self.user_one, name="profile_two")
+        self.profile_two.save()
+        self.assertTrue(self.profile_two)
 
 
-    def test_create_empty_profile_with_documents(self):
+    def test_create_employee(self):
         self.logged_in = self.client.login(username="user_one", password="password_one")
-        self.documentmodel_one = DocumentModel.objects.create(user_id=self.user_one, name="paper_one", warning_days=10, critical_days=5)
-        self.documentmodel_one.save()
-        self.profile_one = Profile.objects.create(user_id=self.user_one, name="profile_one", documentmodels_list=[self.documentmodel_one])
-        self.assertTrue(self.profile_one)
+        self.employee_one = Employee.objects.create(user_id=self.user_one, first_name="employee_one", last_name="employee_one", profile_id=self.profile_one)
+        self.employee_one.save()
+        self.assertTrue(self.employee_one)
+
+
+    def test_update_documentmodel(self):
+        self.logged_in = self.client.login(username="user_one", password="password_one")
+        self.documentmodel_one_one.warning_days=300
+        self.documentmodel_one_one.save()
+        new_value = self.documentmodel_one_one.warning_days
+        self.assertEqual(new_value, 300)

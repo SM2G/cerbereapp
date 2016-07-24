@@ -149,3 +149,13 @@ EMAIL_HOST_PASSWORD = "password"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "The Cerbere App team"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'basic': {
+            'format': '%{asctime}s %{name}-20s %{levelname}-8s %{module}s | %{message}s'
+        }
+    }
+}
