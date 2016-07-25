@@ -19,8 +19,8 @@
         {% for documentmodel in documentmodels %}
         <tr>
             <td><a href="{% url 'documentmodel_update' documentmodel.id %}">{{ documentmodel.name }}</a></td>
-            <td><a href="#">{{ documentmodel.warning_days }}</a></td>
-            <td><a href="#">{{ documentmodel.critical_days }}</a></td>
+            <td>{{ documentmodel.warning_days }}</td>
+            <td>{{ documentmodel.critical_days }}</td>
             <td><a href="#">999</a></td>
             <td><a href="{% url 'documentmodel_trash' documentmodel.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
         </tr>

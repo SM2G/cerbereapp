@@ -155,7 +155,7 @@ def profile_trash(request, profile_id):
     context = {
         'page_title': 'Profile',
         'username': request.user.username,
-        'documentmodels': Profile.objects.all().filter(user_id=request.user),
+        'profiles': Profile.objects.all().filter(user_id=request.user),
         'form': ProfileFormCreate(request.POST)
     }
     return render(request, 'profiles_list.html', context)
@@ -184,6 +184,11 @@ def employees_list(request):
 @login_required
 def employee_create(request, template_name='employee_create.html'):
     form = EmployeeFormCreate(request.POST or None)
+    context = {
+        'page_title': 'Employees',
+        'username': request.user.username,
+        'form': EmployeeFormCreate(request.POST or None)
+    }
     if form.is_valid():
         form.save()
         return redirect('employees_list')

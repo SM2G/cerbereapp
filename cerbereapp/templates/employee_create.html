@@ -6,7 +6,7 @@
 
 <form class="form-horizontal" action="{% url 'employees_list' %}" method="POST">
   <fieldset>
-    <legend>{{ documentmodel }}</legend>
+    <legend>{{ employee }}</legend>
 
         {% csrf_token %}
         {{ form|crispy }}

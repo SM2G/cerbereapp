@@ -34,7 +34,7 @@ class EmployeeFormCreate(forms.ModelForm):
         super(EmployeeFormCreate, self).__init__(*args, **kwargs)
         self.fields["profile_id"].widget = forms.widgets.Select()
         self.fields["profile_id"].help_text = "Select the employee's profile"
-        self.fields["profile_id"].queryset = Profile.objects.all().filter(user_id=request.user)
+        #self.fields["profile_id"].queryset = Profile.objects.all().filter(user_id=request.user)
         #self.fields["profile_id"].initial = Profile.objects.all()
 
     #first_name = forms.CharField(label=("first Name"), max_length=255)
