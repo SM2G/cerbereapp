@@ -19,8 +19,8 @@
         <tr>
             <td><a href="{% url 'profile_update' profile.id %}">{{ profile.name }}</a></td>
             <td>999</td>
-            <td>999</td>
-            <td><a href="{% url 'profile_trash' profile.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+            <td>{{ profile.documentmodels_list.count }}</td>
+            <td><a href="{% url 'profile_delete' profile.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>

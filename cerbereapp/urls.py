@@ -33,17 +33,17 @@ urlpatterns = [
     url(r'^documentmodels/', views.documentmodels_list, name='documentmodels_list'),
     url(r'^documentmodel/create', views.documentmodel_create, name='documentmodel_create'),
     url(r'^documentmodel/(\d+)', views.documentmodel_update, name='documentmodel_update'),
-    url(r'^documentmodel/trash/(\d+)', views.documentmodel_trash, name='documentmodel_trash'),
+    url(r'^documentmodel/delete/(\d+)', views.documentmodel_delete, name='documentmodel_delete'),
     # Profiles
     url(r'^profiles/', views.profiles_list, name='profiles_list'),
     url(r'^profile/create', views.profile_create, name='profile_create'),
     url(r'^profile/(\d+)', views.profile_update, name='profile_update'),
-    url(r'^profile/trash/(\d+)', views.profile_trash, name='profile_trash'),
+    url(r'^profile/delete/(\d+)', views.profile_delete, name='profile_delete'),
     # Employees
     url(r'^employees/', views.employees_list, name='employees_list'),
     url(r'^employee/create', views.employee_create, name='employee_create'),
     url(r'^employee/(\d+)', views.employee_update, name='employee_update'),
-    url(r'^employee/trash/(\d+)', views.employee_trash, name='employee_trash'),
+    url(r'^employee/delete/(\d+)', views.employee_delete, name='employee_delete'),
     # Admin
     url(r'^admin/', admin.site.urls),
 ]

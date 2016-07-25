@@ -22,7 +22,7 @@
       <td><a href="{% url 'employee_update' employee.id %}">{{ employee }}</a></td>
       <td><a href="{% url 'profile_update' employee.profile_id.id %}">{{ employee.profile_id }}</a></td>
       <td><a href="{% url 'profile_update' employee.id %}"><i class="fa fa-circle fa-fw" aria-hidden="true"></i></a></td>
-      <td><a href="{% url 'employee_trash' employee.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+      <td><a href="{% url 'employee_delete' employee.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
     </tr>
     {% endfor %}
     </tbody>

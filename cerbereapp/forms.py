@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.http import HttpResponse, request
+from django.contrib.auth.models import User, Group
 
 from .models import *
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
-
-
-#class DocumentModelForm(forms.Form):
-#    name = forms.CharField()
-#    warning_days = forms.CharField()
-#    critical_days = forms.CharField()
 
 
 class DocumentModelFormCreate(forms.ModelForm):
@@ -24,6 +20,17 @@ class DocumentModelFormCreate(forms.ModelForm):
         self.fields["warning_days"].help_text = "Number of warning days"
         self.fields["critical_days"].widget = forms.widgets.NumberInput()
         self.fields["critical_days"].help_text = "Number of critical days"
+
+
+class ProfileFormCreate(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ["user_id"]
+    def __init__ (self, *args, **kwargs):
+        super(ProfileFormCreate, self).__init__(*args, **kwargs)
+        self.fields["documentmodels_list"].widget = forms.widgets.CheckboxSelectMultiple()
+        self.fields["documentmodels_list"].help_text = "List of documents"
+        #self.fields["documentmodels_list"].queryset = DocumentModel.objects.filter(user_id=logged_user)
 
 
 class EmployeeFormCreate(forms.ModelForm):
@@ -47,14 +54,3 @@ class EmployeeFormCreate(forms.ModelForm):
     #    widget = forms.RadioSelect,
     #    initial = 'option_two',
     #)
-
-
-class ProfileFormCreate(forms.ModelForm):
-    class Meta:
-        model = Profile
-        exclude = ["user_id"]
-    def __init__ (self, *args, **kwargs):
-        super(ProfileFormCreate, self).__init__(*args, **kwargs)
-        self.fields["documentmodels_list"].widget = forms.widgets.CheckboxSelectMultiple()
-        self.fields["documentmodels_list"].help_text = "List of documents"
-        self.fields["documentmodels_list"].queryset = DocumentModel.objects.all()

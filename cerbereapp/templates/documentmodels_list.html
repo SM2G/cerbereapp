@@ -22,7 +22,7 @@
             <td>{{ documentmodel.warning_days }}</td>
             <td>{{ documentmodel.critical_days }}</td>
             <td><a href="#">999</a></td>
-            <td><a href="{% url 'documentmodel_trash' documentmodel.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+            <td><a href="{% url 'documentmodel_delete' documentmodel.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>

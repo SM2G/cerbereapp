@@ -8,13 +8,13 @@ from .forms import *
 
 
 ## Index
-## ##############################
+## #############################################################################
 def index(request):
     return render(request, "index.html")
 
 
 ## Account
-## ##############################
+## #############################################################################
 @login_required
 def account(request):
     account_name = AccountType.objects.get(user_id = request.user.id)
@@ -29,7 +29,7 @@ def account(request):
 
 
 ## Dashboard
-## ##############################
+## #############################################################################
 @login_required
 def dashboard(request):
     context = {
@@ -43,7 +43,7 @@ def dashboard(request):
 
 
 ## Document models
-## ##############################
+## #############################################################################
 @login_required
 def documentmodels_list(request):
     context = {
@@ -67,28 +67,11 @@ def documentmodels_list(request):
 
 @login_required
 def documentmodel_create(request, template_name='documentmodel_create.html'):
-    print('====== Entering')
     form = DocumentModelFormCreate(request.POST or None)
     if form.is_valid():
-        print('====== Going to save')
         form.save()
         return redirect('documentmodels_list')
-    print('====== Render')
     return render(request, template_name, {'form':form})
-
-
-
-@login_required
-def documentmodel_trash(request, documentmodel_id):
-    trash = DocumentModel.objects.get(pk=documentmodel_id)
-    trash.delete()
-    context = {
-        'page_title': 'Document Models',
-        'username': request.user.username,
-        'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
-        'form': DocumentModelFormCreate(request.POST)
-    }
-    return render(request, 'documentmodels_list.html', context)
 
 
 @login_required
@@ -101,22 +84,36 @@ def documentmodel_update(request, pk, template_name='documentmodel_update.html')
     return render(request, template_name, {'form':form})
 
 
+@login_required
+def documentmodel_delete(request, documentmodel_id):
+    trash = DocumentModel.objects.get(pk=documentmodel_id)
+    trash.delete()
+    context = {
+        'page_title': 'Document Models',
+        'username': request.user.username,
+        'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
+        'form': DocumentModelFormCreate(request.POST)
+    }
+    return render(request, 'documentmodels_list.html', context)
+
+
 ## Profiles
-## ##############################
+## #############################################################################
 @login_required
 def profiles_list(request):
     context = {
         'page_title': 'Profiles',
-        'username': request.user.username,
-        'profiles': Profile.objects.all().filter(user_id=request.user),
+        'logged_user': request.user,
+        'profiles': Profile.objects.all().filter(user_id=logged_user),
         'form': ProfileFormCreate(request.POST or None)
     }
     if request.method == "POST":
-        form = ProfileFormCreate(request.POST)
+        form = ProfileFormCreate(request.POST, logged_user)
         if form.is_valid():
             new_profile = Profile.objects.create(
-                user_id=request.user,
-                name=form.cleaned_data.get('name')
+                user_id=logged_user,
+                name=form.cleaned_data.get('name'),
+                documentmodels_list=form.cleaned_data.get('documentmodels_list')
             )
             new_profile.save()
     return render(request, 'profiles_list.html', context)
@@ -132,24 +129,16 @@ def profile_create(request, template_name='profile_create.html'):
 
 
 @login_required
-def profile_create(request):
-    context = {
-        'page_title': 'Profiles',
-        'username': request.user.username,
-        'form': ProfileFormCreate(request.POST or None)
-    }
-    if request.method == "POST":
-        form = ProfileFormCreate(request.POST)
-        if form.is_valid():
-            new_profile = Profile.objects.create(
-                user_id=request.user,
-                name=form.cleaned_data.get('name')
-            )
-            new_profile.save()
-    return render(request, 'profile_create.html', context)
+def profile_update(request, pk, template_name='profile_update.html'):
+    profile = get_object_or_404(Profile, pk=pk)
+    form = ProfileFormCreate(request.POST or None, instance=profile)
+    if form.is_valid():
+        form.save()
+        return redirect('profiles_list')
+    return render(request, template_name, {'form':form})
 
 
-def profile_trash(request, profile_id):
+def profile_delete(request, profile_id):
     trash = Profile.objects.get(pk=profile_id)
     trash.delete()
     context = {
@@ -161,16 +150,8 @@ def profile_trash(request, profile_id):
     return render(request, 'profiles_list.html', context)
 
 
-@login_required
-def profile_update(request, profile_id):
-    context = {
-        'page_title': 'Profile update',
-        'profile': Profile.objects.get(pk=profile_id),
-    }
-    return render(request, 'profile_update.html', context)
-
 ## Employees
-## ##############################
+## #############################################################################
 @login_required
 def employees_list(request):
     context = {
@@ -196,7 +177,17 @@ def employee_create(request, template_name='employee_create.html'):
 
 
 @login_required
-def employee_trash(request, employee_id):
+def employee_update(request, employee_id):
+    context = {
+        'page_title': 'Employee update',
+        'employee': Employee.objects.get(pk=employee_id),
+        'profiles': Profile.objects.all(),
+    }
+    return render(request, 'employee_update.html')
+
+
+@login_required
+def employee_delete(request, employee_id):
     trash = Employee.objects.get(pk=employee_id)
     trash.delete()
     context = {
@@ -206,13 +197,3 @@ def employee_trash(request, employee_id):
         'form': EmployeeFormCreate(request.POST)
     }
     return render(request, 'employees_list.html', context)
-
-
-@login_required
-def employee_update(request, employee_id):
-    context = {
-        'page_title': 'Employee update',
-        'employee': Employee.objects.get(pk=employee_id),
-        'profiles': Profile.objects.all(),
-    }
-    return render(request, 'employee_update.html')

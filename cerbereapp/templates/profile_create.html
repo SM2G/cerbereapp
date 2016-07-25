@@ -9,6 +9,7 @@
 <form class="form-horizontal" action="{% url 'profiles_list' %}" method="POST">
     {% csrf_token %}
     {{ form|crispy }}
+    <a href="{% url 'profiles_list' %}" class="btn btn-default">Cancel</a>
     <input type="submit" class="btn btn-primary" value="Submit"/>
 </form>
 {% endif %}

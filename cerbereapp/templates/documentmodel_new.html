@@ -4,15 +4,17 @@
 {% block content %}
 <h1>{{ page_title|title }}</h1>
 
-<form class="form-horizontal" action="{% url 'profiles_list' %}" method="POST">
+<form class="form-horizontal" action="{% url 'documentmodels_list' %}" method="POST">
   <fieldset>
-    <legend>{{ profile }}</legend>
+    <legend>{{ documentmodel }}</legend>
 
         {% csrf_token %}
         {{ form|crispy }}
 
-        <a href="{% url 'profiles_list' %}" class="btn btn-default">Cancel</a>
+        <a href="{% url 'documentmodels_list' %}" class="btn btn-default">Cancel</a>
         <input type="submit" class="btn btn-primary" value="Submit"/>
+      </div>
+    </div>
 
   </fieldset>
 </form>
