@@ -7,6 +7,7 @@ from .models import *
 from .forms import *
 
 
+
 ## Index
 ## #############################################################################
 def index(request):
@@ -46,6 +47,7 @@ def dashboard(request):
 ## #############################################################################
 @login_required
 def documentmodels_list(request):
+    logged_user=str(request.user.id)
     context = {
         'page_title': 'Document Models',
         'username': request.user.username,
@@ -67,6 +69,7 @@ def documentmodels_list(request):
 
 @login_required
 def documentmodel_create(request, template_name='documentmodel_create.html'):
+    logged_user=str(request.user.id)
     form = DocumentModelFormCreate(request.POST or None)
     if form.is_valid():
         form.save()
@@ -76,6 +79,7 @@ def documentmodel_create(request, template_name='documentmodel_create.html'):
 
 @login_required
 def documentmodel_update(request, pk, template_name='documentmodel_update.html'):
+    logged_user=str(request.user.id)
     documentmodel = get_object_or_404(DocumentModel, pk=pk)
     form = DocumentModelFormCreate(request.POST or None, instance=documentmodel)
     if form.is_valid():
@@ -86,6 +90,7 @@ def documentmodel_update(request, pk, template_name='documentmodel_update.html')
 
 @login_required
 def documentmodel_delete(request, documentmodel_id):
+    logged_user=str(request.user.id)
     trash = DocumentModel.objects.get(pk=documentmodel_id)
     trash.delete()
     context = {
@@ -101,19 +106,21 @@ def documentmodel_delete(request, documentmodel_id):
 ## #############################################################################
 @login_required
 def profiles_list(request):
-    logged_user=request.user
+    logged_user=str(request.user.id)
     context = {
         'page_title': 'Profiles',
-        'profiles': Profile.objects.all().filter(user_id=logged_user),
+        'profiles': Profile.objects.all().filter(user_id=int(logged_user)),
+        'logged_user': logged_user,
         'form': ProfileFormCreate(request.POST or None)
     }
+    print('===== '+ str(logged_user))
     if request.method == "POST":
         form = ProfileFormCreate(request.POST, logged_user)
         if form.is_valid():
             new_profile = Profile.objects.create(
                 user_id=logged_user,
                 name=form.cleaned_data.get('name'),
-                #documentmodels_list=form.cleaned_data.get('documentmodels_list')
+                documentmodels_list=form.cleaned_data.get('documentmodels_list')
             )
             new_profile.save()
     return render(request, 'profiles_list.html', context)
@@ -121,7 +128,7 @@ def profiles_list(request):
 
 @login_required
 def profile_create(request, template_name='profile_create.html'):
-    logged_user=request.user
+    logged_user=str(request.user.id)
     form = ProfileFormCreate(request.POST or None)
     if form.is_valid():
         form.save()
@@ -131,7 +138,7 @@ def profile_create(request, template_name='profile_create.html'):
 
 @login_required
 def profile_update(request, pk, template_name='profile_update.html'):
-    logged_user=request.user
+    logged_user=str(request.user.id)
     profile = get_object_or_404(Profile, pk=pk)
     form = ProfileFormCreate(request.POST or None, instance=profile)
     if form.is_valid():
@@ -141,8 +148,9 @@ def profile_update(request, pk, template_name='profile_update.html'):
 
 
 @login_required
-def profile_delete(request, profile_id):
-    trash = Profile.objects.get(pk=profile_id)
+def profile_delete(request, pk):
+    logged_user=str(request.user.id)
+    trash = Profile.objects.get(pk=pk)
     trash.delete()
     context = {
         'page_title': 'Profile',

@@ -26,7 +26,7 @@ class ProfileFormCreate(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ["user_id"]
-    def __init__ (self, *args, **kwargs):
+    def __init__ (self, logged_user, *args, **kwargs):
         super(ProfileFormCreate, self).__init__(*args, **kwargs)
         self.fields["documentmodels_list"].widget = forms.widgets.CheckboxSelectMultiple()
         self.fields["documentmodels_list"].help_text = "List of documents"

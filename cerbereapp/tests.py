@@ -96,3 +96,15 @@ class CerbereAppViewsTestCase(TestCase):
         self.documentmodel_one_one.save()
         new_value = self.documentmodel_one_one.warning_days
         self.assertEqual(new_value, 300)
+
+    # def test_create_complete_model(self):
+    #     self.logged_in = self.client.login(username="user_one", password="user_one")
+    #     self.documentmodel_fulltest = DocumentModel.objects.create(user_id=self.user_one, name="paper_fulltest", warning_days=10, critical_days=5)
+    #     self.documentmodel_fulltest.save()
+    #     self.documentmodel_list_fulltest = documentmodels_list.objects.create(user_id=self.user_one, profile_id=self.profile_fulltest, documentmodel=self.documentmodel_fulltest)
+    #     self.documentmodel_list_fulltest.save()
+    #     self.profile_fulltest = Profile.objects.create(user_id=self.user_one, name="profile_fulltest", documentmodels_list=[self.documentmodel_fulltest])
+    #     self.profile_fulltest.save()
+    #     self.employee_fulltest = Employee.objects.create(user_id=self.user_one, first_name="first_namefulltest",last_name="last_namefulltest", profile=self.profile_fulltest)
+    #     self.employee_fulltest.save()
+    #     self.assertTrue(self.employee_fulltest)
