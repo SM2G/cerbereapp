@@ -20,7 +20,11 @@
             <td><a href="{% url 'profile_update' profile.id %}">{{ profile.name }}</a></td>
             <td>999</td>
             <td>{{ profile.documentmodels_list.count }}</td>
+            {%if profile.documentmodels_list.count = 0 %}
             <td><a href="{% url 'profile_delete' profile.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+            {% else %}
+            <td><i class="fa fa-trash-o text-disabled" aria-hidden="true"></i></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
