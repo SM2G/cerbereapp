@@ -10,35 +10,38 @@ from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 
 
-class DocumentModelFormCreate(forms.ModelForm):
+class DocumentModelForm(forms.ModelForm):
     class Meta:
         model = DocumentModel
-        exclude = ["user_id"]
+        fields = ["name","warning_days","critical_days","user_id"]
     def __init__(self, *args, **kwargs):
-        super(DocumentModelFormCreate, self).__init__(*args, **kwargs)
+        super(DocumentModelForm, self).__init__(*args, **kwargs)
         self.fields["warning_days"].widget = forms.widgets.NumberInput()
         self.fields["warning_days"].help_text = "Number of warning days"
         self.fields["critical_days"].widget = forms.widgets.NumberInput()
         self.fields["critical_days"].help_text = "Number of critical days"
+        self.fields['user_id'].widget = forms.HiddenInput()
 
 
-class ProfileFormCreate(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ["user_id"]
+        fields = ["user_id","name","documentmodels_list"]
     def __init__ (self, logged_user, *args, **kwargs):
-        super(ProfileFormCreate, self).__init__(*args, **kwargs)
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['user_id'].widget = forms.HiddenInput()
         self.fields["documentmodels_list"].widget = forms.widgets.CheckboxSelectMultiple()
         self.fields["documentmodels_list"].help_text = "List of documents"
         #self.fields["documentmodels_list"].queryset = DocumentModel.objects.filter(user_id=logged_user)
 
 
-class EmployeeFormCreate(forms.ModelForm):
+class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        exclude = ["user_id"]
+        fields = ["user_id","first_name","last_name","is_active","profile_id"]
     def __init__(self, *args, **kwargs):
-        super(EmployeeFormCreate, self).__init__(*args, **kwargs)
+        super(EmployeeForm, self).__init__(*args, **kwargs)
+        self.fields['user_id'].widget = forms.HiddenInput()
         self.fields["profile_id"].widget = forms.widgets.Select()
         self.fields["profile_id"].help_text = "Select the employee's profile"
         #self.fields["profile_id"].queryset = Profile.objects.all().filter(user_id=request.user)
