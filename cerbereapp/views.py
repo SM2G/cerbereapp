@@ -79,7 +79,7 @@ def documentmodel_update(request, documentmodel_id, template_name='documentmodel
     form = DocumentModelForm(request.POST or None, instance=documentmodel)
     print(' ===== is form valid?', form)
     if form.is_valid():
-        print(' ===== form is valid, user:', form.value())
+        print(' ===== form is valid')
         form.save()
         return redirect('documentmodels_list')
     ctx = {}
