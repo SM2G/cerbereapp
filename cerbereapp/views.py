@@ -56,11 +56,9 @@ def documentmodels_list(request, template_name='documentmodels_list.html'):
 @login_required
 def documentmodel_create(request, template_name='documentmodel_create.html'):
     logged_user=str(request.user.id)
-    form = DocumentModelForm(request.POST or None, initial={'user_id': request.user.id})
-
+    form = DocumentModelForm(request.POST or None)
     if form.is_valid():
-        #user_input = form['user_id'].value
-        #if int(user_input) == int(logged_user):
+        form.instance.user_id = request.user
         form.save()
         return redirect('documentmodels_list')
         #else:
@@ -105,7 +103,6 @@ def profiles_list(request):
         'page_title': 'Profiles',
         'profiles': Profile.objects.all().filter(user_id=str(request.user.id)),
         'logged_user': str(request.user.id),
-        'form': ProfileForm(request.POST or None)
     }
     #print('===== user:'+ ctx["logged_user"])
     if request.method == "POST":
@@ -124,13 +121,13 @@ def profiles_list(request):
 def profile_create(request, template_name='profile_create.html'):
     logged_user=int(request.user.id)
     print('===== logged_user: ', logged_user)
-    form = ProfileForm(request.POST or None, logged_user, initial={'user_id': request.user.id})
+    form = ProfileForm(request.POST or None, logged_user=logged_user, initial={'user_id': request.user.id})
     if form.is_valid():
         form.save()
         return redirect('profiles_list')
     ctx = {}
     ctx["form"] = form
-    ctx["logged_user"] = str(request.user.id)
+    ctx["logged_user"] = int(request.user.id)
     return render(request, template_name, ctx)
 
 

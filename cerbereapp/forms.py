@@ -13,14 +13,14 @@ from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 class DocumentModelForm(forms.ModelForm):
     class Meta:
         model = DocumentModel
-        fields = ["name","warning_days","critical_days","user_id"]
+        fields = ["name","warning_days","critical_days"]
     def __init__(self, *args, **kwargs):
         super(DocumentModelForm, self).__init__(*args, **kwargs)
         self.fields["warning_days"].widget = forms.widgets.NumberInput()
         self.fields["warning_days"].help_text = "Number of warning days"
         self.fields["critical_days"].widget = forms.widgets.NumberInput()
         self.fields["critical_days"].help_text = "Number of critical days"
-        self.fields['user_id'].widget = forms.HiddenInput()
+        #self.fields['user_id'].widget = forms.HiddenInput()
 
     def clean(self):
         cleaned_data = super(DocumentModelForm, self).clean()
@@ -34,15 +34,17 @@ class DocumentModelForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ["user_id","name","documentmodels_list"]
+        fields = ["name","documentmodels_list"]
     def __init__ (self, *args, **kwargs):
+        logged_user=kwargs.pop('logged_user')
+        documentmodels = []
+        for documentmodel in DocumentModel.objects.filter(user_id=logged_user):
+            documentmodels.append((documentmodel.id, documentmodel.name))
         super(ProfileForm, self).__init__(*args, **kwargs)
-        self.fields['user_id'].widget = forms.HiddenInput()
+        #self.fields['user_id'].widget = forms.HiddenInput()
         self.fields["documentmodels_list"].widget = forms.widgets.CheckboxSelectMultiple()
         self.fields["documentmodels_list"].help_text = ""
-        if kwargs.logged_user:
-            self.fields["documentmodels_list"].choices = DocumentModel.objects.filter(user_id=kwargs[logged_user])
-
+        self.fields["documentmodels_list"].choices = documentmodels
 
 
 class EmployeeForm(forms.ModelForm):
