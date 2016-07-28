@@ -22,17 +22,27 @@ class DocumentModelForm(forms.ModelForm):
         self.fields["critical_days"].help_text = "Number of critical days"
         self.fields['user_id'].widget = forms.HiddenInput()
 
+    def clean(self):
+        cleaned_data = super(DocumentModelForm, self).clean()
+        warning_days = cleaned_data.get("warning_days")
+        critical_days = cleaned_data.get("critical_days")
+
+        if critical_days > warning_days:
+            raise forms.ValidationError("Warning must be greater than critical.")
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["user_id","name","documentmodels_list"]
-    def __init__ (self, logged_user, *args, **kwargs):
+    def __init__ (self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
         self.fields['user_id'].widget = forms.HiddenInput()
         self.fields["documentmodels_list"].widget = forms.widgets.CheckboxSelectMultiple()
-        self.fields["documentmodels_list"].help_text = "List of documents"
-        #self.fields["documentmodels_list"].queryset = DocumentModel.objects.filter(user_id=logged_user)
+        self.fields["documentmodels_list"].help_text = ""
+        if kwargs.logged_user:
+            self.fields["documentmodels_list"].choices = DocumentModel.objects.filter(user_id=kwargs[logged_user])
+
 
 
 class EmployeeForm(forms.ModelForm):

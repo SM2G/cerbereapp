@@ -75,6 +75,12 @@ class CerbereAppViewsTestCase(TestCase):
         self.assertTrue(self.documentmodel_one)
 
 
+#    def test_create_documentmodel_critical_superior_to_warning(self):
+#        self.logged_in = self.client.login(username="user_one", password="user_one")
+#        self.documentmodel_false = DocumentModel.objects.create(user_id=self.user_one, name="paper_one", warning_days=20, critical_days=30)
+#        self.assertFormError(self.documentmodel_false)
+
+
     def test_create_empty_profile(self):
         self.logged_in = self.client.login(username="user_one", password="user_one")
         self.documentmodel_two = DocumentModel.objects.create(user_id=self.user_one, name="documentmodel_two", warning_days=10, critical_days=5)

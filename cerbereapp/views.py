@@ -101,16 +101,15 @@ def documentmodel_delete(request, documentmodel_id):
 ## #############################################################################
 @login_required
 def profiles_list(request):
-    logged_user=str(request.user.id)
     ctx = {
         'page_title': 'Profiles',
-        'profiles': Profile.objects.all().filter(user_id=int(logged_user)),
-        'logged_user': logged_user,
+        'profiles': Profile.objects.all().filter(user_id=str(request.user.id)),
+        'logged_user': str(request.user.id),
         'form': ProfileForm(request.POST or None)
     }
-    print('===== '+ str(logged_user))
+    #print('===== user:'+ ctx["logged_user"])
     if request.method == "POST":
-        form = ProfileForm(request.POST, logged_user)
+        form = ProfileForm(request.POST, ctx["logged_user"])
         if form.is_valid():
             new_profile = Profile.objects.create(
                 user_id=logged_user,
@@ -123,14 +122,20 @@ def profiles_list(request):
 
 @login_required
 def profile_create(request, template_name='profile_create.html'):
-    logged_user=str(request.user.id)
-    form = ProfileForm(request.POST or None, initial={'user_id': request.user.id})
+    logged_user=int(request.user.id)
+    print('===== logged_user: ', logged_user)
+    form = ProfileForm(request.POST or None, logged_user, initial={'user_id': request.user.id})
     if form.is_valid():
         form.save()
         return redirect('profiles_list')
     ctx = {}
     ctx["form"] = form
+    ctx["logged_user"] = str(request.user.id)
     return render(request, template_name, ctx)
+
+
+
+
 
 
 @login_required
