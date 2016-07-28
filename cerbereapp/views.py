@@ -7,7 +7,6 @@ from .models import *
 from .forms import *
 
 
-
 ## Index
 ## #############################################################################
 def index(request):
@@ -47,63 +46,55 @@ def dashboard(request):
 ## #############################################################################
 @login_required
 def documentmodels_list(request, template_name='documentmodels_list.html'):
-    print(' ===== entering documentmodels_list')
     logged_user=str(request.user.id)
     documentmodels = DocumentModel.objects.all().filter(user_id=request.user)
     ctx = {}
     ctx['documentmodels'] = documentmodels
-    print(' ===== Return documentmodels_list')
     return render(request, template_name, ctx)
 
 
 @login_required
 def documentmodel_create(request, template_name='documentmodel_create.html'):
-    print(' ===== entering documentmodel_create')
     logged_user=str(request.user.id)
     form = DocumentModelForm(request.POST or None, initial={'user_id': request.user.id})
+
     if form.is_valid():
-        print(' ===== form is valid, user:', form['user_id'].value())
-        #if form['user_id'].value() = logged_user:
+        #user_input = form['user_id'].value
+        #if int(user_input) == int(logged_user):
         form.save()
         return redirect('documentmodels_list')
+        #else:
+        #    print('===== expec:', logged_user)
+        #    print('===== input:', form['user_id'].value())
     ctx = {}
     ctx["form"] = form
-    print(' ===== Return documentmodel_create')
     return render(request, template_name, ctx)
 
 
 @login_required
 def documentmodel_update(request, documentmodel_id, template_name='documentmodel_update.html'):
-    print(' ===== entering documentmodel_update')
     documentmodel = get_object_or_404(DocumentModel, pk=documentmodel_id)
     form = DocumentModelForm(request.POST or None, instance=documentmodel)
-    print(' ===== is form valid?', form)
     if form.is_valid():
-        print(' ===== form is valid')
         form.save()
         return redirect('documentmodels_list')
     ctx = {}
     ctx["form"] = form
     ctx["documentmodel"] = documentmodel
-    print(' ===== Return documentmodel_update')
     return render(request, template_name, ctx)
 
 
 @login_required
 def documentmodel_delete(request, documentmodel_id):
-    print(' ===== entering documentmodel_delete')
     logged_user=str(request.user.id)
     trash = DocumentModel.objects.get(pk=documentmodel_id)
     trash.delete()
-    print(' ===== deleted',documentmodel_id)
     ctx = {
         #'page_title': 'Document Models',
         'documentmodels': DocumentModel.objects.all().filter(user_id=request.user),
         'form': DocumentModelForm(request.POST)
     }
-    print(' ===== Return documentmodels_list')
     return render(request, 'documentmodels_list.html', ctx)
-
 
 
 ## Profiles
@@ -111,7 +102,7 @@ def documentmodel_delete(request, documentmodel_id):
 @login_required
 def profiles_list(request):
     logged_user=str(request.user.id)
-    context = {
+    ctx = {
         'page_title': 'Profiles',
         'profiles': Profile.objects.all().filter(user_id=int(logged_user)),
         'logged_user': logged_user,
@@ -127,17 +118,19 @@ def profiles_list(request):
                 documentmodels_list=form.cleaned_data.get('documentmodels_list')
             )
             new_profile.save()
-    return render(request, 'profiles_list.html', context)
+    return render(request, 'profiles_list.html', ctx)
 
 
 @login_required
 def profile_create(request, template_name='profile_create.html'):
     logged_user=str(request.user.id)
-    form = ProfileForm(request.POST or None)
+    form = ProfileForm(request.POST or None, initial={'user_id': request.user.id})
     if form.is_valid():
         form.save()
         return redirect('profiles_list')
-    return render(request, template_name, {'form':form})
+    ctx = {}
+    ctx["form"] = form
+    return render(request, template_name, ctx)
 
 
 @login_required
