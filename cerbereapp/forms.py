@@ -40,12 +40,12 @@ class ProfileForm(forms.ModelForm):
         documentmodels = []
         for documentmodel in DocumentModel.objects.filter(user_id=logged_user):
             documentmodels.append((documentmodel.id, documentmodel.name))
+        print('===== documentmodels:',documentmodels)
+
         super(ProfileForm, self).__init__(*args, **kwargs)
-        #self.fields['user_id'].widget = forms.HiddenInput()
         self.fields["documentmodels_list"].widget = forms.widgets.CheckboxSelectMultiple()
         self.fields["documentmodels_list"].help_text = ""
         self.fields["documentmodels_list"].choices = documentmodels
-
 
 
 class EmployeeForm(forms.ModelForm):

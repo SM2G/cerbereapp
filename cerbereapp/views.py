@@ -108,9 +108,9 @@ def profile_create(request, template_name='profile_create.html'):
     logged_user=int(request.user.id)
     print('===== logged_user: ', logged_user)
     form = ProfileForm(request.POST or None, logged_user=logged_user)
-    for i in form['documentmodels_list']:
-        print('===== form:',form['documentmodels_list'][i])
+    print('===== form validation:',form.data)
     if form.is_valid():
+        print('===== form validated:',form.instance.data)
         form.instance.user_id = request.user
         print('===== form:',form)
         form.save()
