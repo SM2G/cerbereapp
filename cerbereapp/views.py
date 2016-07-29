@@ -61,9 +61,6 @@ def documentmodel_create(request, template_name='documentmodel_create.html'):
         form.instance.user_id = request.user
         form.save()
         return redirect('documentmodels_list')
-        #else:
-        #    print('===== expec:', logged_user)
-        #    print('===== input:', form['user_id'].value())
     ctx = {}
     ctx["form"] = form
     return render(request, template_name, ctx)
@@ -98,41 +95,29 @@ def documentmodel_delete(request, documentmodel_id):
 ## Profiles
 ## #############################################################################
 @login_required
-def profiles_list(request):
-    ctx = {
-        'page_title': 'Profiles',
-        'profiles': Profile.objects.all().filter(user_id=str(request.user.id)),
-        'logged_user': str(request.user.id),
-    }
-    #print('===== user:'+ ctx["logged_user"])
-    if request.method == "POST":
-        form = ProfileForm(request.POST, ctx["logged_user"])
-        if form.is_valid():
-            new_profile = Profile.objects.create(
-                user_id=logged_user,
-                name=form.cleaned_data.get('name'),
-                documentmodels_list=form.cleaned_data.get('documentmodels_list')
-            )
-            new_profile.save()
-    return render(request, 'profiles_list.html', ctx)
+def profiles_list(request, template_name='profiles_list.html'):
+    logged_user=str(request.user.id)
+    profiles = Profile.objects.all().filter(user_id=request.user)
+    ctx = {}
+    ctx['profiles'] = profiles
+    return render(request, template_name, ctx)
 
 
 @login_required
 def profile_create(request, template_name='profile_create.html'):
     logged_user=int(request.user.id)
     print('===== logged_user: ', logged_user)
-    form = ProfileForm(request.POST or None, logged_user=logged_user, initial={'user_id': request.user.id})
+    form = ProfileForm(request.POST or None, logged_user=logged_user)
+    for i in form['documentmodels_list']:
+        print('===== form:',form['documentmodels_list'][i])
     if form.is_valid():
+        form.instance.user_id = request.user
+        print('===== form:',form)
         form.save()
         return redirect('profiles_list')
     ctx = {}
     ctx["form"] = form
-    ctx["logged_user"] = int(request.user.id)
     return render(request, template_name, ctx)
-
-
-
-
 
 
 @login_required
