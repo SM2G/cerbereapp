@@ -20,7 +20,6 @@ class DocumentModelForm(forms.ModelForm):
         self.fields["warning_days"].help_text = "Number of warning days"
         self.fields["critical_days"].widget = forms.widgets.NumberInput()
         self.fields["critical_days"].help_text = "Number of critical days"
-        #self.fields['user_id'].widget = forms.HiddenInput()
 
     def clean(self):
         cleaned_data = super(DocumentModelForm, self).clean()
