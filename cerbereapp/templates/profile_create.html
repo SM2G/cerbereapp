@@ -6,7 +6,7 @@
 
 {% if form %}
 <h1>Add new {{ page_title|title }}</h1>
-<form class="form-horizontal" action="{% url 'profiles_list' %}" method="POST">
+<form class="form-horizontal" method="POST">
     {% csrf_token %}
     {{ form|crispy }}
     <a href="{% url 'profiles_list' %}" class="btn btn-default">Cancel</a>

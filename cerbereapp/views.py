@@ -109,10 +109,7 @@ def profile_create(request, template_name='profile_create.html'):
     print('===== logged_user: ', logged_user)
     form = ProfileForm(request.POST or None, logged_user=logged_user)
     if form.is_valid():
-        print('===== form documentmodels_list:',form.documentmodels_list)
-        print('===== form validated:',form.instance.data)
         form.instance.user_id = request.user
-        print('===== form:',form)
         form.save()
         return redirect('profiles_list')
     ctx = {}
@@ -124,7 +121,7 @@ def profile_create(request, template_name='profile_create.html'):
 def profile_update(request, pk, template_name='profile_update.html'):
     logged_user=str(request.user.id)
     profile = get_object_or_404(Profile, pk=pk)
-    form = ProfileForm(request.POST or None, instance=profile)
+    form = ProfileForm(request.POST or None, logged_user=logged_user, instance=profile)
     if form.is_valid():
         form.save()
         return redirect('profiles_list')
