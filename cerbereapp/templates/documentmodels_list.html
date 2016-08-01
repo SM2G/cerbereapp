@@ -21,7 +21,7 @@
             <td><a href="{% url 'documentmodel_update' documentmodel.id %}">{{ documentmodel.name }}</a></td>
             <td>{{ documentmodel.warning_days }}</td>
             <td>{{ documentmodel.critical_days }}</td>
-            <td><a href="#">{{ documentmodel.profile_set.count }}</a></td>
+            <td>{{ documentmodel.profile_set.count }}</td>
             <td><a href="{% url 'documentmodel_delete' documentmodel.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
         </tr>
         {% endfor %}

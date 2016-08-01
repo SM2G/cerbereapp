@@ -49,22 +49,16 @@ class ProfileForm(forms.ModelForm):
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ["user_id","first_name","last_name","is_active","profile_id"]
+        fields = ["first_name","last_name","is_active","profile_id"]
     def __init__(self, *args, **kwargs):
+        logged_user=kwargs.pop('logged_user')
+        profiles = []
+        for profile in Profile.objects.filter(user_id=logged_user):
+            profiles.append((profile.id, profile.name))
+
         super(EmployeeForm, self).__init__(*args, **kwargs)
-        self.fields['user_id'].widget = forms.HiddenInput()
         self.fields["profile_id"].widget = forms.widgets.Select()
-        self.fields["profile_id"].help_text = "Select the employee's profile"
+        self.fields["profile_id"].choices = profiles
+        self.fields["profile_id"].help_text = ""
         #self.fields["profile_id"].queryset = Profile.objects.all().filter(user_id=request.user)
         #self.fields["profile_id"].initial = Profile.objects.all()
-
-    #first_name = forms.CharField(label=("first Name"), max_length=255)
-    #last_name = forms.CharField()
-    #profile = forms.ChoiceField(
-    #    choices = (
-    #        ('option_one', "Option one is this and that be sure to include why it's great"),
-    #        ('option_two', "Option two can is something else and selecting it will deselect option one")
-    #    ),
-    #    widget = forms.RadioSelect,
-    #    initial = 'option_two',
-    #)

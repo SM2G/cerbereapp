@@ -24,7 +24,7 @@ class DocumentModel(models.Model):
 class Profile(models.Model):
     user_id = models.ForeignKey(User)
     name = models.CharField(max_length=50)
-    documentmodels_list = models.ManyToManyField(DocumentModel)
+    documentmodels_list = models.ManyToManyField(DocumentModel,default=None, blank=True)
     def __str__(self):
         return self.name
 

@@ -9,9 +9,9 @@
   <thead>
     <tr>
       <th>#</th>
+      <th>Status</th>
       <th>Name</th>
       <th>Profile</th>
-      <th>Status</th>
       <th></th>
     </tr>
   </thead>
@@ -19,9 +19,13 @@
      {% for employee in employees %}
     <tr>
       <td><a class="text-info">{{ employee.id }}</a></td>
+      {% if employee.is_active %}
+      <td><i class="fa fa-circle fa-fw text-success" aria-hidden="true"></i></td>
+      {% else %}
+      <td><i class="fa fa-circle fa-fw text-danger" aria-hidden="true"></i></td>
+      {% endif %}
       <td><a href="{% url 'employee_update' employee.id %}">{{ employee }}</a></td>
       <td><a href="{% url 'profile_update' employee.profile_id.id %}">{{ employee.profile_id }}</a></td>
-      <td><a href="{% url 'profile_update' employee.id %}"><i class="fa fa-circle fa-fw" aria-hidden="true"></i></a></td>
       <td><a href="{% url 'employee_delete' employee.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
     </tr>
     {% endfor %}
