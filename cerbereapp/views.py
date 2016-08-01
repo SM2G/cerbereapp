@@ -44,13 +44,26 @@ def dashboard(request):
 
 ## Document models
 ## #############################################################################
+#@login_required
+#def documentmodels_list(request, template_name='documentmodels_list.html'):
+#    logged_user=str(request.user.id)
+#    documentmodels = DocumentModel.objects.all().filter(user_id=request.user)
+#    ctx = {}
+#    ctx['documentmodels'] = documentmodels
+#    return render(request, template_name, ctx)
+
 @login_required
 def documentmodels_list(request, template_name='documentmodels_list.html'):
     logged_user=str(request.user.id)
     documentmodels = DocumentModel.objects.all().filter(user_id=request.user)
+    for documentmodel in documentmodels:
+        print(documentmodel)
+        print(documentmodel.profile_set.all())
     ctx = {}
     ctx['documentmodels'] = documentmodels
     return render(request, template_name, ctx)
+
+
 
 
 @login_required
