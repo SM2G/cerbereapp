@@ -171,7 +171,9 @@ def employee_create(request, template_name='employee_create.html'):
     print('======= form validation', form.data)
     if form.is_valid():
         form.instance.user_id = request.user
-        print('======= form validated!!')
+        print('======= form documents_creation', form.instance.profile_id.id)
+        for documentmodel in form.instance.profile_id.documentmodels_list.all():
+             print(documentmodel)
         form.save()
         return redirect('employees_list')
     ctx = {}
@@ -190,15 +192,14 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
     return render(request, template_name, {'form':form})
 
 
-
 @login_required
 def employee_delete(request, employee_id):
+    logged_user=str(request.user.id)
     trash = Employee.objects.get(pk=employee_id)
     trash.delete()
-    context = {
-        'page_title': 'Employees',
+    ctx = {
+        'logged_user': logged_user,
         'username': request.user.username,
         'employees': Employee.objects.all().filter(user_id=request.user),
-        'form': EmployeeForm(request.POST)
     }
-    return render(request, 'employees_list.html', context)
+    return render(request, 'employees_list.html', ctx)

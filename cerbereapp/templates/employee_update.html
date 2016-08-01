@@ -5,16 +5,16 @@
 <h1>{{ page_title|title }}</h1>
 
 <form class="form-horizontal" method="POST">
-  <fieldset>
-    <legend>{{ employee }}</legend>
+    <fieldset>
+        <legend>{{ employee }}</legend>
 
         {% csrf_token %}
         {{ form|crispy }}
 
         <a href="{% url 'employees_list' %}" class="btn btn-default">Cancel</a>
         <input type="submit" class="btn btn-primary" value="Submit"/>
-
-  </fieldset>
+        
+    </fieldset>
 </form>
 <div class="page-header">
     <div class="row">
