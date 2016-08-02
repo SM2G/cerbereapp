@@ -168,12 +168,12 @@ def employees_list(request, template_name='employees_list.html'):
 def employee_create(request, template_name='employee_create.html'):
     logged_user=str(request.user.id)
     form = EmployeeForm(request.POST or None, logged_user=logged_user)
-    print('======= form validation', form.data)
     if form.is_valid():
         form.instance.user_id = request.user
-        print('======= form documents_creation', form.instance.profile_id.id)
+        print('======= Creating agent', form.instance.profile_id.id)
         for documentmodel in form.instance.profile_id.documentmodels_list.all():
-             print(documentmodel)
+             print('======= creating actual document', documentmodel,'...')
+             ###new_document = ActualDocument.create()
         form.save()
         return redirect('employees_list')
     ctx = {}

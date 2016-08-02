@@ -18,7 +18,7 @@
     <tbody>
         {% for employee in employees %}
         <tr>
-            <td><a class="text-info">{{ employee.id }}</a></td>
+            <td><i class="text-info">{{ employee.id }}</i></td>
             {% if employee.is_active %}
             <td><i class="fa fa-circle fa-fw text-success" aria-hidden="true"></i></td>
             {% else %}

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 from django.db import models
 from django.contrib.auth.models import User, Group
 
@@ -42,7 +43,7 @@ class Employee(models.Model):
 class ActualDocument(models.Model):
     employee = models.ForeignKey(Employee)
     documentmodel = models.ForeignKey(DocumentModel)
-    document_file = models.BinaryField
-    expiration_date = models.DateField
+    document_file = models.BinaryField(null=True)
+    expiration_date = models.DateField(default=datetime.date.today, blank=True)
     def __str__(self):
         return self.DocumentModel.name
