@@ -13,19 +13,21 @@
 
         <a href="{% url 'employees_list' %}" class="btn btn-default">Cancel</a>
         <input type="submit" class="btn btn-primary" value="Submit"/>
-        
+
     </fieldset>
 </form>
 <div class="page-header">
     <div class="row">
         <div class="col-lg-12">
-            <h1 id="pricing">Documents</h1>
+            <h1>{{ employee }} Documents</h1>
         </div>
     </div>
 </div>
-<ul>
-    {% for documentmodel in employee.documentmodels %}
-    <li>{{ documentmodel }}</li>
+<form class="form-horizontal" method="POST">
+    {% for actualdocument in actualdocuments %}
+    <h2>{{ actualdocument }}</h2></br>
+        {{ form|crispy }}
     {% endfor %}
-</ul>
+    <input type="submit" class="btn btn-primary" value="Submit"/>
+</form>
 {% endblock %}

@@ -157,7 +157,7 @@ def profile_delete(request, profile_id):
 ## #############################################################################
 @login_required
 def employees_list(request, template_name='employees_list.html'):
-    logged_user=str(request.user.id)
+    logged_user = str(request.user.id)
     employees = Employee.objects.all().filter(user_id=request.user)
     ctx = {}
     ctx['employees'] = employees
@@ -170,11 +170,14 @@ def employee_create(request, template_name='employee_create.html'):
     form = EmployeeForm(request.POST or None, logged_user=logged_user)
     if form.is_valid():
         form.instance.user_id = request.user
-        print('======= Creating agent', form.instance.profile_id.id)
+        print('======= Using profile', form.instance.profile_id.id)
+        form.save()
+        employee_id = form.instance
+        print('======= Creating agent', form.data)
         for documentmodel in form.instance.profile_id.documentmodels_list.all():
              print('======= creating actual document', documentmodel,'...')
-             ###new_document = ActualDocument.create()
-        form.save()
+             new_document = ActualDocument(employee=employee_id, documentmodel=documentmodel)
+             new_document.save()
         return redirect('employees_list')
     ctx = {}
     ctx["form"] = form
@@ -183,13 +186,20 @@ def employee_create(request, template_name='employee_create.html'):
 
 @login_required
 def employee_update(request, employee_id, template_name='employee_update.html'):
-    logged_user=str(request.user.id)
+    logged_user = str(request.user.id)
     employee = get_object_or_404(Employee, pk=employee_id)
     form = EmployeeForm(request.POST or None, logged_user=logged_user, instance=employee)
+    print('======= Employee id', employee.id)
+    actualdocuments = ActualDocument.objects.all().filter(employee_id=employee.id)
+    for actualdocuemnt in actualdocuments:
+        print('======= Getting actual document', actualdocuemnt.id)
     if form.is_valid():
         form.save()
         return redirect('employees_list')
-    return render(request, template_name, {'form':form})
+    ctx = {}
+    ctx["form"] = form
+    ctx["actualdocuments"] = actualdocuments
+    return render(request, template_name, ctx)
 
 
 @login_required

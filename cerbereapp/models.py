@@ -46,4 +46,4 @@ class ActualDocument(models.Model):
     document_file = models.BinaryField(null=True)
     expiration_date = models.DateField(default=datetime.date.today, blank=True)
     def __str__(self):
-        return self.DocumentModel.name
+        return self.documentmodel.name

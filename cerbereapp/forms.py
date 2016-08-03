@@ -57,8 +57,22 @@ class EmployeeForm(forms.ModelForm):
             profiles.append((profile.id, profile.name))
 
         super(EmployeeForm, self).__init__(*args, **kwargs)
+        self.fields["first_name"].autofocus = True
         self.fields["profile_id"].widget = forms.widgets.Select()
         self.fields["profile_id"].choices = profiles
         self.fields["profile_id"].help_text = ""
         #self.fields["profile_id"].queryset = Profile.objects.all().filter(user_id=request.user)
         #self.fields["profile_id"].initial = Profile.objects.all()
+
+
+class ActualDocuemntForm(forms.ModelForm):
+    class Meta:
+        model = ActualDocument
+        fields = ["expiration_date"]
+    def __init__(self, *args, **kwargs):
+        logged_user=kwargs.pop('logged_user')
+        employee_id=kwargs.pop('employee_id')
+
+        super(ActualDocuemntForm, self).__init__(*args, **kwargs)
+        self.fields["expiration_date"].autofocus = True
+        self.fields["expiration_date"].help_text = "Enter expiration date"
