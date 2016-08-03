@@ -16,6 +16,7 @@
 
     </fieldset>
 </form>
+
 <div class="page-header">
     <div class="row">
         <div class="col-lg-12">
@@ -23,11 +24,14 @@
         </div>
     </div>
 </div>
+
 <form class="form-horizontal" method="POST">
-    {% for actualdocument in actualdocuments %}
-    <h2>{{ actualdocument }}</h2></br>
-        {{ form|crispy }}
+    {% csrf_token %}
+    {% for id, actualdocument in actualdocuments.items %}
+    <h2>{{ id }}</h2></br>
+        {{ actualdocument|crispy }}
     {% endfor %}
     <input type="submit" class="btn btn-primary" value="Submit"/>
 </form>
+
 {% endblock %}

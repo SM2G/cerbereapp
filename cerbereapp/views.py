@@ -190,15 +190,30 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
     employee = get_object_or_404(Employee, pk=employee_id)
     form = EmployeeForm(request.POST or None, logged_user=logged_user, instance=employee)
     print('======= Employee id', employee.id)
-    actualdocuments = ActualDocument.objects.all().filter(employee_id=employee.id)
-    for actualdocuemnt in actualdocuments:
-        print('======= Getting actual document', actualdocuemnt.id)
+    actualdocument_list = ActualDocument.objects.all().filter(employee_id=employee.id)
+    print('======= actualdocument_list', actualdocument_list)
+
+    actualdocuments = {}
+    for actualdocument in actualdocument_list:
+        k = actualdocument.documentmodel.name
+        print('======= Generating actual document form', k)
+        v = get_object_or_404(ActualDocument, pk=actualdocument.id)
+        actualdocuments[k] = ActualDocumentForm(request.POST or None, logged_user = logged_user, instance = v)
+        print('======= Form Ready!')
+
     if form.is_valid():
         form.save()
         return redirect('employees_list')
     ctx = {}
     ctx["form"] = form
     ctx["actualdocuments"] = actualdocuments
+    print('======= form ', form)
+    print('======= DICT BELOW ', actualdocuments)
+    for k, v in actualdocuments.items():
+        print(k)
+        print(v)
+    print('======= DICT UP ')
+
     return render(request, template_name, ctx)
 
 
