@@ -30,9 +30,9 @@
 
 <form class="form-horizontal" method="POST">
     {% csrf_token %}
-    {% for id, actualdocument in actualdocuments.items %}
-    <h4>{{ id }}</h4></br>
-        {{ actualdocument|crispy }}
+    {% for k, v in actualdocuments.items %}
+    <h4>{{ k }}</h4></br>
+        {{ v|crispy }}
     {% endfor %}
     <a href="{% url 'employees_list' %}" class="btn btn-default">Cancel</a>
     <input type="submit" class="btn btn-primary" value="Submit"/>

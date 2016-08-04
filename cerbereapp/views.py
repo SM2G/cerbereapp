@@ -158,7 +158,7 @@ def profile_delete(request, profile_id):
 @login_required
 def employees_list(request, template_name='employees_list.html'):
     logged_user = str(request.user.id)
-    employees = Employee.objects.all().filter(user_id=request.user)
+    employees = Employee.objects.all().filter(user_id=request.user).order_by("is_active")
     ctx = {}
     ctx['employees'] = employees
     return render(request, template_name, ctx)
@@ -195,24 +195,26 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
 
     actualdocuments = {}
     for actualdocument in actualdocument_list:
-        k = actualdocument.documentmodel.name
-        #print('======= Generating actual document form', k)
-        v = get_object_or_404(ActualDocument, pk = actualdocument.id)
-        actualdocuments[k] = ActualDocumentForm(request.POST or None, logged_user = logged_user, instance = v)
+        #k = actualdocument.documentmodel.name
+        k = get_object_or_404(ActualDocument, pk = actualdocument.id)
+        #print('======= actualdocument.id', actualdocument.id)
+        #v = get_object_or_404(ActualDocument, pk = actualdocument.id)
+        actualdocuments[k] = ActualDocumentForm(request.POST or None, logged_user = logged_user, instance = k)
 
     if form.is_valid():
+        print('======= CHECKING FORM:',form)
         form.save()
         return redirect('employees_list')
 
     endsave = len(actualdocuments.keys())
+
     for k, v in actualdocuments.items():
-        #print('======= CHECKING FORM',k)
+        print('======= CHECKING V:',v)
         if v.is_valid():
-            print('======= SAVING FORM',k,v,'...')
+            print('======= SAVING FORM!!!')
             v.save()
-            print('======= Remains to save ',endsave,'...')
+            #print('======= Remains to save ',endsave,'...')
             endsave -= 1
-        print('======= Final endsave',endsave)
         if endsave == 0:
             return redirect('employees_list')
 
