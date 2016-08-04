@@ -70,6 +70,6 @@ class ActualDocumentForm(forms.ModelForm):
         fields = ["expiration_date"]
     def __init__(self, *args, **kwargs):
         logged_user=kwargs.pop('logged_user')
-
+        self.helper = FormHelper()
         super(ActualDocumentForm, self).__init__(*args, **kwargs)
-        self.fields["expiration_date"].help_text = "Enter expiration date"
+        self.fields["expiration_date"].help_text = ""

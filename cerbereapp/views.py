@@ -176,7 +176,7 @@ def employee_create(request, template_name='employee_create.html'):
         print('======= Creating agent', form.data)
         for documentmodel in form.instance.profile_id.documentmodels_list.all():
              print('======= creating actual document', documentmodel,'...')
-             new_document = ActualDocument(employee=employee_id, documentmodel=documentmodel)
+             new_document = ActualDocument(employee = employee_id, documentmodel = documentmodel)
              new_document.save()
         return redirect('employees_list')
     ctx = {}
@@ -187,33 +187,39 @@ def employee_create(request, template_name='employee_create.html'):
 @login_required
 def employee_update(request, employee_id, template_name='employee_update.html'):
     logged_user = str(request.user.id)
-    employee = get_object_or_404(Employee, pk=employee_id)
-    form = EmployeeForm(request.POST or None, logged_user=logged_user, instance=employee)
+    employee = get_object_or_404(Employee, pk = employee_id)
+    form = EmployeeForm(request.POST or None, logged_user = logged_user, instance = employee)
     print('======= Employee id', employee.id)
-    actualdocument_list = ActualDocument.objects.all().filter(employee_id=employee.id)
-    print('======= actualdocument_list', actualdocument_list)
+    actualdocument_list = ActualDocument.objects.all().filter(employee_id = employee.id)
+    #print('======= actualdocument_list', actualdocument_list)
 
     actualdocuments = {}
     for actualdocument in actualdocument_list:
         k = actualdocument.documentmodel.name
-        print('======= Generating actual document form', k)
-        v = get_object_or_404(ActualDocument, pk=actualdocument.id)
+        #print('======= Generating actual document form', k)
+        v = get_object_or_404(ActualDocument, pk = actualdocument.id)
         actualdocuments[k] = ActualDocumentForm(request.POST or None, logged_user = logged_user, instance = v)
-        print('======= Form Ready!')
 
     if form.is_valid():
         form.save()
         return redirect('employees_list')
+
+    endsave = len(actualdocuments.keys())
+    for k, v in actualdocuments.items():
+        #print('======= CHECKING FORM',k)
+        if v.is_valid():
+            print('======= SAVING FORM',k,v,'...')
+            v.save()
+            print('======= Remains to save ',endsave,'...')
+            endsave -= 1
+        print('======= Final endsave',endsave)
+        if endsave == 0:
+            return redirect('employees_list')
+
     ctx = {}
     ctx["form"] = form
     ctx["actualdocuments"] = actualdocuments
-    print('======= form ', form)
-    print('======= DICT BELOW ', actualdocuments)
-    for k, v in actualdocuments.items():
-        print(k)
-        print(v)
-    print('======= DICT UP ')
-
+    print('======= DICT ', actualdocuments)
     return render(request, template_name, ctx)
 
 

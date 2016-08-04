@@ -17,6 +17,9 @@
     </fieldset>
 </form>
 
+
+{% if actualdocuments %}
+
 <div class="page-header">
     <div class="row">
         <div class="col-lg-12">
@@ -28,10 +31,13 @@
 <form class="form-horizontal" method="POST">
     {% csrf_token %}
     {% for id, actualdocument in actualdocuments.items %}
-    <h2>{{ id }}</h2></br>
+    <h4>{{ id }}</h4></br>
         {{ actualdocument|crispy }}
     {% endfor %}
+    <a href="{% url 'employees_list' %}" class="btn btn-default">Cancel</a>
     <input type="submit" class="btn btn-primary" value="Submit"/>
 </form>
+
+{% endif %}
 
 {% endblock %}
