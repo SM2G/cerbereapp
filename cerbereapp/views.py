@@ -161,12 +161,16 @@ def employees_list(request, template_name='employees_list.html'):
     employees = Employee.objects.all().filter(user_id=request.user).order_by("is_active")
     ctx = {}
     ctx['employees'] = employees
+    ctx['employee_counter'] = Employee.objects.all().filter(user_id=request.user).count
+    ctx['limit_employees'] =  AccountType.objects.get(user_id=request.user.id).limit_employees
     return render(request, template_name, ctx)
 
 
 @login_required
 def employee_create(request, template_name='employee_create.html'):
-    logged_user=str(request.user.id)
+    logged_user = str(request.user.id)
+    employee_counter = Employee.objects.all().filter(user_id=request.user).count
+    limit_employees = AccountType.objects.get(user_id=request.user.id).limit_employees
     form = EmployeeForm(request.POST or None, logged_user=logged_user)
     if form.is_valid():
         form.instance.user_id = request.user
@@ -175,12 +179,14 @@ def employee_create(request, template_name='employee_create.html'):
         employee_id = form.instance
         print('======= Creating agent', form.data)
         for documentmodel in form.instance.profile_id.documentmodels_list.all():
-             print('======= creating actual document', documentmodel,'...')
-             new_document = ActualDocument(employee = employee_id, documentmodel = documentmodel)
-             new_document.save()
+            print('======= creating actual document', documentmodel,'...')
+            new_document = ActualDocument(employee=employee_id, documentmodel=documentmodel)
+            new_document.save()
         return redirect('employees_list')
     ctx = {}
     ctx["form"] = form
+    ctx['employee_counter'] = employee_counter
+    ctx['limit_employees'] =  limit_employees
     return render(request, template_name, ctx)
 
 
@@ -202,17 +208,18 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
         actualdocuments[k] = ActualDocumentForm(request.POST or None, logged_user = logged_user, instance = k)
 
     if form.is_valid():
-        print('======= CHECKING FORM:',form)
+        print('======= EMPLOYEE FORM:',form)
         form.save()
         return redirect('employees_list')
 
     endsave = len(actualdocuments.keys())
 
     for k, v in actualdocuments.items():
-        print('======= CHECKING V:',v)
+        print('======= CHECKING first phorm:', actualdocuments[k])
+        print('======= CHECKING V:', v)
         if v.is_valid():
-            print('======= SAVING FORM!!!')
-            v.save()
+            print('======= SAVING FORM!!!', v)
+            actualdocuments[k].save()
             #print('======= Remains to save ',endsave,'...')
             endsave -= 1
         if endsave == 0:
@@ -228,11 +235,15 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
 @login_required
 def employee_delete(request, employee_id):
     logged_user=str(request.user.id)
-    trash = Employee.objects.get(pk=employee_id)
-    trash.delete()
-    ctx = {
-        'logged_user': logged_user,
-        'username': request.user.username,
-        'employees': Employee.objects.all().filter(user_id=request.user),
-    }
+    trash_employee = Employee.objects.get(pk=employee_id)
+    trash_employee.delete()
+    ctx = {}
+    ctx['employee_counter'] = Employee.objects.all().filter(user_id=request.user).count
+    ctx['limit_employees'] =  AccountType.objects.get(user_id=request.user.id).limit_employees
+    ctx['logged_user'] = logged_user
+    ctx['username'] = request.user.username
+    ctx['employees'] = Employee.objects.all().filter(user_id=request.user)
+    for trash_actual_document in trash_employee.actualdocument_list.all():
+        print('======= drop document', trash_document,'...')
+        trash_document.delete()
     return render(request, 'employees_list.html', ctx)

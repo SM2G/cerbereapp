@@ -1,0 +1,23 @@
+
+
+## Document Models
+## ##############################
+- model: cerbereapp.employee
+  pk: 1
+  fields:
+    first_name: John
+    last_name: Lennon
+
+- model: cerbereapp.employee
+  pk: 2
+  fields:
+    first_name: Paul
+    last_name: McCartney
+    profile: 
+
+## Profiles
+## ##############################
+
+
+## Employees
+## ##############################

@@ -33,9 +33,19 @@
 </table>
 {% else %}
 <h4>No employees registered yet.</h4>
-Create <a href="{% url 'documentmodels_list' %}">Document Models</a> and <a href="{% url 'profiles_list' %}">profiles</a> first.
+Create <a href="{% url 'documentmodels_list' %}">Document Models</a> and <a href="{% url 'profiles_list' %}">profiles</a> first.</br>
 {% endif %}
 
-<a class="btn btn-primary" href="{% url 'employee_create' %}">New employee</a>
+{% if employee_counter <= limit_employees %}
+    <a class="btn btn-primary" href="{% url 'employee_create' %}">New employee</a>
+    </br>
+    <p class="text-primary">{{ employee_counter }} / {{ limit_employees }}</p>
+
+{% else %}
+    <a class="btn btn-primary disabled" href="{% url 'employee_create' %}">New employee</a>
+    </br>
+    <p class="text-danger">{{ employee_counter }} / {{ limit_employees }}</p>
+{% endif %}
+
 
 {% endblock %}
