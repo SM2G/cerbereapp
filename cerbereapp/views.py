@@ -205,7 +205,7 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
         k = get_object_or_404(ActualDocument, pk = actualdocument.id)
         #print('======= actualdocument.id', actualdocument.id)
         #v = get_object_or_404(ActualDocument, pk = actualdocument.id)
-        actualdocuments[k] = ActualDocumentForm(request.POST or None, logged_user = logged_user, instance = k)
+        actualdocuments[k] = ActualDocumentForm(request.POST or None, logged_user = logged_user, instance = k, prefix=actualdocument.id)
 
     if form.is_valid():
         print('======= EMPLOYEE FORM:',form)
@@ -213,10 +213,7 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
         return redirect('employees_list')
 
     endsave = len(actualdocuments.keys())
-
     for k, v in actualdocuments.items():
-        print('======= CHECKING K:', k)
-        print('======= CHECKING V:', v)
         if v.is_valid():
             print('======= SAVING FORM!!!', v)
             actualdocuments[k].save()
@@ -230,6 +227,8 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
     ctx["actualdocuments"] = actualdocuments
     print('======= DICT ', actualdocuments)
     return render(request, template_name, ctx)
+
+
 
 
 @login_required
