@@ -67,10 +67,10 @@ class EmployeeForm(forms.ModelForm):
 class ActualDocumentForm(forms.ModelForm):
     class Meta:
         model = ActualDocument
-        fields = ["expiration_date"]
+        fields = ["expiration_date", "document_file"]
     def __init__(self, *args, **kwargs):
         logged_user=kwargs.pop('logged_user')
         self.helper = FormHelper()
         super(ActualDocumentForm, self).__init__(*args, **kwargs)
         self.fields["expiration_date"].help_text = ""
-        #self.fields["document_file"].null = True
+        self.fields["document_file"].null = True

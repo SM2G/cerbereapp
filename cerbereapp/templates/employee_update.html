@@ -29,7 +29,7 @@
 </div>
 
 
-<form class="form-horizontal" method="POST">
+<form class="form-horizontal" enctype='multipart/form-data' method="POST">
     {% csrf_token %}
     {% for k, v in actualdocuments.items %}
     <h4>{{ k }}</h4></br>

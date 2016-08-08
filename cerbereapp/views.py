@@ -44,14 +44,6 @@ def dashboard(request):
 
 ## Document models
 ## #############################################################################
-#@login_required
-#def documentmodels_list(request, template_name='documentmodels_list.html'):
-#    logged_user=str(request.user.id)
-#    documentmodels = DocumentModel.objects.all().filter(user_id=request.user)
-#    ctx = {}
-#    ctx['documentmodels'] = documentmodels
-#    return render(request, template_name, ctx)
-
 @login_required
 def documentmodels_list(request, template_name='documentmodels_list.html'):
     logged_user=str(request.user.id)
@@ -135,6 +127,16 @@ def profile_update(request, pk, template_name='profile_update.html'):
     form = ProfileForm(request.POST or None, logged_user=logged_user, instance=profile)
     if form.is_valid():
         form.save()
+        # Loop on all employees
+        for employee in profile.employee_set.all():
+            print('=======',employee,'should have:')
+            employee.check_employee()
+            #for document in employee.profile.documentmodels:
+            #    print('======= doc: ',document)
+
+            #for actualdocument in ActualDocument.objects.all().filter(employee=employee.id):
+            #    print('======= ======= doc:',actualdocument)
+
         return redirect('profiles_list')
     return render(request, template_name, {'form':form})
 
@@ -206,7 +208,7 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
         #print('======= actualdocument.id', actualdocument.id)
         #v = get_object_or_404(ActualDocument, pk = actualdocument.id)
         actualdocuments[k] = ActualDocumentForm(request.POST or None\
-                                                #, request.FILES['document_file[k]']\
+                                                , request.FILES or None\
                                                 , logged_user = logged_user\
                                                 , instance = k\
                                                 , prefix=actualdocument.id)
@@ -247,6 +249,6 @@ def employee_delete(request, employee_id):
     ctx['username'] = request.user.username
     ctx['employees'] = Employee.objects.all().filter(user_id=request.user)
     for trash_actual_document in trash_employee.actualdocument_list.all():
-        print('======= drop document', trash_document,'...')
-        trash_document.delete()
+        print('======= drop document', trash_actual_document,'...')
+        trash_actual_document.delete()
     return render(request, 'employees_list.html', ctx)
