@@ -205,7 +205,11 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
         k = get_object_or_404(ActualDocument, pk = actualdocument.id)
         #print('======= actualdocument.id', actualdocument.id)
         #v = get_object_or_404(ActualDocument, pk = actualdocument.id)
-        actualdocuments[k] = ActualDocumentForm(request.POST or None, logged_user = logged_user, instance = k, prefix=actualdocument.id)
+        actualdocuments[k] = ActualDocumentForm(request.POST or None\
+                                                #, request.FILES['document_file[k]']\
+                                                , logged_user = logged_user\
+                                                , instance = k\
+                                                , prefix=actualdocument.id)
 
     if form.is_valid():
         print('======= EMPLOYEE FORM:',form)

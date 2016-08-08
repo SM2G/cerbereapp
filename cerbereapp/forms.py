@@ -73,3 +73,4 @@ class ActualDocumentForm(forms.ModelForm):
         self.helper = FormHelper()
         super(ActualDocumentForm, self).__init__(*args, **kwargs)
         self.fields["expiration_date"].help_text = ""
+        #self.fields["document_file"].null = True

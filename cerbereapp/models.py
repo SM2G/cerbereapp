@@ -43,7 +43,7 @@ class Employee(models.Model):
 class ActualDocument(models.Model):
     employee = models.ForeignKey(Employee)
     documentmodel = models.ForeignKey(DocumentModel)
-    document_file = models.BinaryField(null=True)
+    document_file = models.FileField(null=True, upload_to='media/%Y%m')
     expiration_date = models.DateField(default=datetime.date.today, blank=True)
     def __str__(self):
         return self.documentmodel.name
