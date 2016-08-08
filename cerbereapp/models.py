@@ -44,14 +44,27 @@ class Employee(models.Model):
 
     def check_employee(self):
         # Adding
-        print('======= Adding to...',self)
-        for document_to_have in Profile.objects.get(self.profile_id):
-            print('======= emp profile: ',document)
-            if var:
-                aaa
-            else:
-                aaa
+        current_employee = self.id
+        current_profile = Profile.objects.get(id=self.profile_id.id)
+        for document_to_have in current_profile.documentmodels_list.all():
+            print('======= document: ',document_to_have, end=' ')
+            try:
+                ActualDocument.objects.get(documentmodel=document_to_have, employee=current_employee)
+                print('OK!')
+            except:
+                print('-NOT- OK!', end=' ')
+                new_document = ActualDocument(employee=self,documentmodel=document_to_have)
+                new_document.save()
+                print('>>>>>>> New document saved.')
         # Cleaning
+        authorized_document_models = []
+        for document_model in current_profile.documentmodels_list.all():
+            authorized_document_models.append(document_model.id)
+        print('authorized list', authorized_document_models)
+        check_documents = ActualDocument.objects.filter(employee=self).all()
+        for check_document in check_documents:
+            if check_document.documentmodel.id not in authorized_document_models:
+                print('Document ',check_document,' needs to be DESTROYED!!!')
 
 
     class Meta:
