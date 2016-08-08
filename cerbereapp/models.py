@@ -64,8 +64,11 @@ class Employee(models.Model):
         check_documents = ActualDocument.objects.filter(employee=self).all()
         for check_document in check_documents:
             if check_document.documentmodel.id not in authorized_document_models:
-                print('Document ',check_document,' needs to be DESTROYED!!!')
-
+                print('Document',check_document.id,end=' ')
+                check_document.delete()
+                print('has been DESTROYED!!!')
+            else:
+                print('Document',check_document.id,'is good.')
 
     class Meta:
         ordering = ["-is_active","last_name"]

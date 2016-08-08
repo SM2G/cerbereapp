@@ -131,11 +131,6 @@ def profile_update(request, pk, template_name='profile_update.html'):
         for employee in profile.employee_set.all():
             print('=======',employee,'should have:')
             employee.check_employee()
-            #for document in employee.profile.documentmodels:
-            #    print('======= doc: ',document)
-
-            #for actualdocument in ActualDocument.objects.all().filter(employee=employee.id):
-            #    print('======= ======= doc:',actualdocument)
 
         return redirect('profiles_list')
     return render(request, template_name, {'form':form})
@@ -216,6 +211,7 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
     if form.is_valid():
         print('======= EMPLOYEE FORM:',form)
         form.save()
+        employee.check_employee()
         return redirect('employees_list')
 
     endsave = len(actualdocuments.keys())
