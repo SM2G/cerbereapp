@@ -223,6 +223,7 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
             return redirect('employees_list')
 
     ctx = {}
+    ctx["employee"] = employee
     ctx["form"] = form
     ctx["actualdocuments"] = actualdocuments
     print('======= DICT ', actualdocuments)

@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^index/', views.index, name='index'),
     # Registration
     url(r'^accounts/', include('registration.backends.default.urls')),
+    #url(r'^accounts/logout', views.registration.logout, name='logout'),
     url(r'^account/', views.account, name='account'),
     # Dashboard
     url(r'^dashboard/', views.dashboard, name='dashboard'),

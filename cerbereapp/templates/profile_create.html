@@ -5,13 +5,18 @@
 <h1>{{ page_title|title }}</h1>
 
 {% if form %}
-<h1>Add new {{ page_title|title }}</h1>
-<form class="form-horizontal" method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <a href="{% url 'profiles_list' %}" class="btn btn-default">Cancel</a>
-    <input type="submit" class="btn btn-primary" value="Submit"/>
-</form>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h1>Add new {{ page_title|title }}</h1>
+        <form class="form-horizontal" method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <a href="{% url 'profiles_list' %}" class="btn btn-default">Cancel</a>
+            <input type="submit" class="btn btn-primary" value="Submit"/>
+        </form>
+    </div>
+</div>
 {% endif %}
 
 {% endblock %}

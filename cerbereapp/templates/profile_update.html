@@ -6,7 +6,7 @@
 
 <form class="form-horizontal" method="POST">
     <fieldset>
-        <legend>{{ profile }}</legend>
+        <legend>{{ profile|title }}</legend>
 
         {% csrf_token %}
         {{ form|crispy }}
