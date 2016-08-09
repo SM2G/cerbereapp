@@ -47,7 +47,7 @@ class Employee(models.Model):
         current_employee = self.id
         current_profile = Profile.objects.get(id=self.profile_id.id)
         for document_to_have in current_profile.documentmodels_list.all():
-            print('======= document: ',document_to_have, end=' ')
+            print('======= document:',document_to_have, end=' ')
             try:
                 ActualDocument.objects.get(documentmodel=document_to_have, employee=current_employee)
                 print('OK!')
@@ -66,7 +66,7 @@ class Employee(models.Model):
             if check_document.documentmodel.id not in authorized_document_models:
                 print('Document',check_document.id,end=' ')
                 check_document.delete()
-                print('has been DESTROYED!!!')
+                print('>>>>>>> has been DESTROYED!!!')
             else:
                 print('Document',check_document.id,'is good.')
 
@@ -77,7 +77,7 @@ class Employee(models.Model):
 class ActualDocument(models.Model):
     employee = models.ForeignKey(Employee)
     documentmodel = models.ForeignKey(DocumentModel)
-    document_file = models.FileField(null=True, blank=True, upload_to='%Y/%m')
+    document_file = models.FileField(null=True, blank=True, upload_to="self.employee.id/self.documentmodel")
     expiration_date = models.DateField(default=datetime.date.today, blank=True)
     def __str__(self):
         return self.documentmodel.name

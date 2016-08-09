@@ -198,10 +198,8 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
 
     actualdocuments = {}
     for actualdocument in actualdocument_list:
-        #k = actualdocument.documentmodel.name
         k = get_object_or_404(ActualDocument, pk = actualdocument.id)
         #print('======= actualdocument.id', actualdocument.id)
-        #v = get_object_or_404(ActualDocument, pk = actualdocument.id)
         actualdocuments[k] = ActualDocumentForm(request.POST or None\
                                                 , request.FILES or None\
                                                 , logged_user = logged_user\
@@ -231,20 +229,20 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
     return render(request, template_name, ctx)
 
 
-
-
 @login_required
 def employee_delete(request, employee_id):
     logged_user=str(request.user.id)
-    trash_employee = Employee.objects.get(pk=employee_id)
-    trash_employee.delete()
+    employee = Employee.objects.get(pk=employee_id)
     ctx = {}
     ctx['employee_counter'] = Employee.objects.all().filter(user_id=request.user).count
     ctx['limit_employees'] =  AccountType.objects.get(user_id=request.user.id).limit_employees
     ctx['logged_user'] = logged_user
     ctx['username'] = request.user.username
     ctx['employees'] = Employee.objects.all().filter(user_id=request.user)
-    for trash_actual_document in trash_employee.actualdocument_list.all():
-        print('======= drop document', trash_actual_document,'...')
-        trash_actual_document.delete()
+    employee_documents = ActualDocument.objects.filter(employee=employee.id).all()
+    for employee_document in employee_documents:
+        print('======= drop document', employee_document,'...')
+        employee_document.delete()
+    employee.delete()
+    print('======= drop employee', employee)
     return render(request, 'employees_list.html', ctx)
