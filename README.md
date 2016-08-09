@@ -25,13 +25,13 @@ cp cerbereapp/settings.py.sample cerbereapp/settings.py
 + ~~Login/logout~~
 + ~~Encrypted password storage~~
 + ~~Account managment~~
-+ Add/remove/manage document models
-+ Add/remove/manage profiles
-+ Add/remove/manage employees
-+ Add/remove/manage actual documents
++ ~~Add/remove/manage document models~~
++ ~~Add/remove/manage profiles~~
++ ~~Add/remove/manage employees~~
++ ~~Add/remove/manage actual documents~~
 + Design a pretty Dashboard
-+ E-mail sending
-+ Upload document scans
++ E-mail reporting
++ ~~Upload document scans~~
 + Create guest accounts
 + Advanced guest accounts
 + Add compressor for static files

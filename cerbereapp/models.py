@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import User, Group
 
@@ -88,7 +89,24 @@ class ActualDocument(models.Model):
         return self.documentmodel.name
 
     def get_document_status(self):
+        today = datetime.date.today()
+        expiration_date = self.expiration_date
+        critical_treshold = timedelta(days = self.documentmodel.critical_days)
+        warning_treshold = timedelta(days = self.documentmodel.warning_days)
+        print('======= Document',self,'expires on',self.expiration_date,'is', end=' ')
         # Check if expired
+        if expiration_date >= today:
+            print('EXPIRED !!!')
+            document_status = 'expired'
         # Check if critical
+        elif (expiration_date - today) <= critical_treshold:
+            print('Critical !!')
+            document_status = 'critical'
         # Check if warning
-        pass
+        elif (expiration_date - today) <= warning_treshold:
+            print('Warning !')
+            document_status = 'warning'
+        else:
+            print('Ok.')
+            document_status = 'valid'
+        return document_status

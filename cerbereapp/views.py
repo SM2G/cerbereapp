@@ -18,28 +18,42 @@ def index(request):
 @login_required
 def account(request):
     account_name = AccountType.objects.get(user_id = request.user.id)
-    context = {
+    ctx = {
         'page_title': 'account',
         'employee_counter': Employee.objects.all().filter(user_id=request.user).count,
         'username': request.user.username,
         'account_name' : AccountType.objects.get(user_id = request.user.id),
         'limit_employees': account_name.limit_employees,
     }
-    return render(request, 'account.html', context)
+    return render(request, 'account.html', ctx)
 
 
 ## Dashboard
 ## #############################################################################
 @login_required
 def dashboard(request):
-    context = {
-        'page_title': 'Dashboard',
-        'employee_counter': Employee.objects.all().filter(user_id=request.user).count,
-        'profile_counter': Profile.objects.all().filter(user_id=request.user).count,
-        'documentmodel_counter': DocumentModel.objects.all().filter(user_id=request.user).count,
-        'username': request.user.username,
-    }
-    return render(request, 'dashboard.html', context)
+    ctx = {}
+    ctx["employee_counter"] = Employee.objects.all().filter(user_id=request.user).count
+    ctx["profile_counter"] = Profile.objects.all().filter(user_id=request.user).count
+    ctx["documentmodel_counter"] = DocumentModel.objects.all().filter(user_id=request.user).count
+
+    ctx["expired_counter"] = 0
+    ctx["critical_counter"] = 0
+    ctx["warning_counter"] = 0
+
+    for employee in Employee.objects.all().filter(user_id=request.user):
+        print('===== Checking ',employee,'...')
+        for document in ActualDocument.objects.all().filter(employee=employee):
+            document_status = document.get_document_status()
+            if document_status == 'expired':
+                ctx["expired_counter"] += 1
+            if document_status == 'critical':
+                ctx["critical_counter"] += 1
+            if document_status == 'warning':
+                ctx["warning_counter"] += 1
+
+    ctx["username"] = request.user.username
+    return render(request, 'dashboard.html', ctx)
 
 
 ## Document models

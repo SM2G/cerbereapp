@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ page_title|title }}</h1>
 
 <div class="row">
     <h2>Summary</h2>
@@ -25,15 +24,15 @@
     <h2>Documents</h2>
     <ul class="list-group col-md-3">
         <li class="list-group-item text-primary">
-            <span class="badge">999</span>
+            <span class="badge">{{ expired_counter }}</span>
             Expired documents
         </li>
         <li class="list-group-item text-danger">
-            <span class="badge">999</span>
+            <span class="badge">{{ critical_counter }}</span>
             Documents in Critical status
         </li>
         <li class="list-group-item text-warning">
-            <span class="badge">999</span>
+            <span class="badge">{{ warning_counter }}</span>
             Documents in Warning status
         </li>
     </ul>
