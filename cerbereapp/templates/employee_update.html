@@ -2,6 +2,16 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
+<script>
+$( function() {
+  $( "#datepicker" ).datepicker({
+    showOtherMonths: true,
+    selectOtherMonths: true
+  });
+} );
+</script>
+
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <form class="form-horizontal" method="POST">
@@ -34,9 +44,14 @@
         <form class="form-horizontal" enctype='multipart/form-data' method="POST">
             {% csrf_token %}
             {% for k, v in actualdocuments.items %}
-            <legend>{{ k|title }}</legend></br>
-            {{ v|crispy }}
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ k|title }}</div>
+                <div class="panel-body">
+                    {{ v|crispy }}
+                </div>
+            </div>
             {% endfor %}
+
             <a href="{% url 'employees_list' %}" class="btn btn-default">Cancel</a>
             <input type="submit" class="btn btn-primary" value="Submit"/>
         </form>

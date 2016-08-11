@@ -75,6 +75,37 @@ class Employee(models.Model):
             else:
                 print('Document',check_document.id,'is good.')
 
+    def get_employee_status(self):
+        expired_counter = 0
+        critical_counter = 0
+        warning_counter = 0
+        print('======= Checking employee',self,'...')
+        for document in ActualDocument.objects.all().filter(employee=self):
+            document_status = document.get_document_status()
+            if document_status == 'expired':
+                expired_counter += 1
+            if document_status == 'critical':
+                critical_counter += 1
+            if document_status == 'warning':
+                warning_counter += 1
+
+        # Check if expired
+        if expired_counter > 0:
+            print('EXPIRED !!!')
+            employee_status = 'expired'
+        # Check if critical
+        elif critical_counter > 0:
+            print('Critical !!')
+            employee_status = 'critical'
+        # Check if warning
+        elif warning_counter > 0:
+            print('Warning !')
+            employee_status = 'warning'
+        else:
+            print('Ok.')
+            employee_status = 'valid'
+        return employee_status
+
     class Meta:
         ordering = ["-is_active","last_name"]
 
@@ -95,7 +126,7 @@ class ActualDocument(models.Model):
         warning_treshold = timedelta(days = self.documentmodel.warning_days)
         print('======= Document',self,'expires on',self.expiration_date,'is', end=' ')
         # Check if expired
-        if expiration_date >= today:
+        if expiration_date <= today:
             print('EXPIRED !!!')
             document_status = 'expired'
         # Check if critical

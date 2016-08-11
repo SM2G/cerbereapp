@@ -17,16 +17,28 @@
     </thead>
     <tbody>
         {% for employee in employees %}
-        <tr>
+        {% if employee.get_employee_status == 'expired' %}
+        <tr class="active">
+        {% elif employee.get_employee_status == 'critical' %}
+        <tr class="danger">
+        {% elif employee.get_employee_status == 'warning' %}
+        <tr class="warning">
+        {% else %}
+        <tr class="">
+        {% endif %}
             <td><i class="text-info">{{ employee.id }}</i></td>
+
+            <td>
             {% if employee.is_active %}
-            <td><i class="fa fa-circle fa-fw text-success" aria-hidden="true"></i></td>
+            <i class="fa fa-check fa-fw text-success" aria-hidden="true"></i>
             {% else %}
-            <td><i class="fa fa-circle fa-fw text-danger" aria-hidden="true"></i></td>
+            <i class="fa fa-ban fa-fw text-danger" aria-hidden="true"></i>
             {% endif %}
+            </td>
+
             <td><a href="{% url 'employee_update' employee.id %}">{{ employee }}</a></td>
             <td><a href="{% url 'profile_update' employee.profile_id.id %}">{{ employee.profile_id }}</a></td>
-            <td><a href="{% url 'employee_delete' employee.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+            <td><a href="{% url 'employee_delete' employee.id %}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>

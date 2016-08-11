@@ -21,9 +21,9 @@
             <td><i class="text-warning" aria-hidden="true">{{ profile.employee_set.count }}</i></td>
             <td>{{ profile.documentmodels_list.count }}</td>
             {% if profile.employee_set.count = 0 %}
-            <td><a href="{% url 'profile_delete' profile.id %}" class="text-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+            <td><a href="{% url 'profile_delete' profile.id %}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
             {% else %}
-            <td><i class="fa fa-trash-o text-disabled" aria-hidden="true"></i></td>
+            <td><i class="btn btn-danger btn-xs disabled" aria-hidden="true"><i class="fa fa-trash-o" aria-hidden="true"></i></i></td>
             {% endif %}
         </tr>
         {% endfor %}

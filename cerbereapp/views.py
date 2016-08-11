@@ -1,10 +1,25 @@
 from django.http import HttpResponse, request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.template.context_processors import csrf
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 from .models import *
 from .forms import *
+
+from django.template.defaultfilters import filesizeformat
+from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+
+def clean_content(self):
+    content = self.cleaned_data['content']
+    content_type = content.content_type.split('/')[0]
+    if content_type in settings.CONTENT_TYPES:
+        if content._size > settings.MAX_UPLOAD_SIZE:
+            raise forms.ValidationError(_('Please keep filesize under %s. Current filesize %s') % (filesizeformat(settings.MAX_UPLOAD_SIZE), filesizeformat(content._size)))
+    else:
+        raise forms.ValidationError(_('File type is not supported'))
+    return content
 
 
 ## Index
@@ -18,13 +33,13 @@ def index(request):
 @login_required
 def account(request):
     account_name = AccountType.objects.get(user_id = request.user.id)
-    ctx = {
-        'page_title': 'account',
-        'employee_counter': Employee.objects.all().filter(user_id=request.user).count,
-        'username': request.user.username,
-        'account_name' : AccountType.objects.get(user_id = request.user.id),
-        'limit_employees': account_name.limit_employees,
-    }
+    ctx = {}
+    ctx["page_title"] = 'Account'
+    ctx["employee_counter"] = Employee.objects.all().filter(user_id=request.user).count
+    ctx["username"] = request.user.username
+    ctx["account_name"] = AccountType.objects.get(user_id = request.user.id)
+    ctx["limit_employees"] = account_name.limit_employees
+    ctx["message"] = messages.add_message(request, messages.INFO, 'Hello world.')
     return render(request, 'account.html', ctx)
 
 
@@ -169,7 +184,7 @@ def profile_delete(request, profile_id):
 @login_required
 def employees_list(request, template_name='employees_list.html'):
     logged_user = str(request.user.id)
-    employees = Employee.objects.all().filter(user_id=request.user).order_by("is_active")
+    employees = Employee.objects.all().filter(user_id=request.user).order_by("-is_active")
     ctx = {}
     ctx['employees'] = employees
     ctx['employee_counter'] = Employee.objects.all().filter(user_id=request.user).count
@@ -240,7 +255,7 @@ def employee_update(request, employee_id, template_name='employee_update.html'):
     ctx["employee"] = employee
     ctx["form"] = form
     ctx["actualdocuments"] = actualdocuments
-    print('======= DICT ', actualdocuments)
+    #print('======= DICT ', actualdocuments)
     return render(request, template_name, ctx)
 
 

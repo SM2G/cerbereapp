@@ -58,7 +58,7 @@ class EmployeeForm(forms.ModelForm):
             profiles.append((profile.id, profile.name))
 
         super(EmployeeForm, self).__init__(*args, **kwargs)
-        self.fields["first_name"].autofocus = True
+        self.fields["last_name"].autofocus = True
         self.fields["profile_id"].widget = forms.widgets.Select()
         self.fields["profile_id"].choices = profiles
         self.fields["profile_id"].help_text = ""
