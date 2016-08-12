@@ -9,8 +9,8 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th><i class="fa fa-users fa-fw" aria-hidden="true"></i></th>
             <th><i class="fa fa-file-o fa-fw" aria-hidden="true"></i></th>
+            <th><i class="fa fa-users fa-fw" aria-hidden="true"></i></th>
             <th></th>
         </tr>
     </thead>
@@ -18,8 +18,14 @@
         {% for profile in profiles %}
         <tr>
             <td><a href="{% url 'profile_update' profile.id %}">{{ profile.name }}</a></td>
-            <td><i class="text-warning" aria-hidden="true">{{ profile.employee_set.count }}</i></td>
             <td>{{ profile.documentmodels_list.count }}</td>
+            <td>
+                {% if profile.employee_set.count = 0 %}
+                <i class="text-success" aria-hidden="true">{{ profile.employee_set.count }}</i>
+                {% else %}
+                <i class="text-warning" aria-hidden="true">{{ profile.employee_set.count }}</i>
+                {% endif %}
+            </td>
             {% if profile.employee_set.count = 0 %}
             <td><a href="{% url 'profile_delete' profile.id %}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
             {% else %}

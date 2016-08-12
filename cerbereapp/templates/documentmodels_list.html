@@ -21,7 +21,13 @@
             <td><a href="{% url 'documentmodel_update' documentmodel.id %}">{{ documentmodel.name }}</a></td>
             <td>{{ documentmodel.warning_days }}</td>
             <td>{{ documentmodel.critical_days }}</td>
-            <td><i class="text-warning" aria-hidden="true">{{ documentmodel.profile_set.count }}</i></td>
+            <td>{% if documentmodel.profile_set.count = 0 %}
+            <i class="text-success" aria-hidden="true">{{ documentmodel.profile_set.count }}</i>
+            {% else %}
+            <i class="text-warning" aria-hidden="true">{{ documentmodel.profile_set.count }}</i>
+            {% endif %}
+            </td>
+
             {% if documentmodel.profile_set.count = 0 %}
             <td><a href="{% url 'documentmodel_delete' documentmodel.id %}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
             {% else %}

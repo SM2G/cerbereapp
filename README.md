@@ -1,8 +1,10 @@
 # Cerbere App
 
+![alt text](https://raw.githubusercontent.com/SM2G/cerbereapp/master/cerbereapp/static/cerbereapp/logo_v2.png "CerbereApp")
+
 ## Description
 
-Web-based document lifecycle managment solution.
+Web-based document lifecycle managment solution. Open source version with basic functionnalities.
 
 ## Features
 + Mysql database support
@@ -29,9 +31,8 @@ cp cerbereapp/settings.py.sample cerbereapp/settings.py
 + ~~Add/remove/manage profiles~~
 + ~~Add/remove/manage employees~~
 + ~~Add/remove/manage actual documents~~
-+ Design a pretty Dashboard
-+ E-mail reporting
 + ~~Upload document scans~~
-+ Create guest accounts
-+ Advanced guest accounts
++ Pretty Dashboard
 + Add compressor for static files
++ E-mail reporting
++ Create guest accounts

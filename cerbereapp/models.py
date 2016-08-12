@@ -7,8 +7,8 @@ from django.contrib.auth.models import User, Group
 
 class AccountType(models.Model):
     user_id = models.OneToOneField(User)
-    name = models.CharField(max_length=50)
-    limit_employees = models.IntegerField(default=5)
+    name = models.CharField(max_length=50, default='Open source')
+    limit_employees = models.IntegerField(default=500)
     notifications = models.BooleanField(default=False)
 
     def __str__(self):

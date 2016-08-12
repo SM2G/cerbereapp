@@ -39,7 +39,7 @@ def account(request):
     ctx["username"] = request.user.username
     ctx["account_name"] = AccountType.objects.get(user_id = request.user.id)
     ctx["limit_employees"] = account_name.limit_employees
-    ctx["message"] = messages.add_message(request, messages.INFO, 'Hello world.')
+    #ctx["message"] = messages.add_message(request, messages.INFO, 'Hello world.')
     return render(request, 'account.html', ctx)
 
 
